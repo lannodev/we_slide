@@ -1,8 +1,7 @@
 name: we_slide
 description: A backdrop animated widget =]
 version: 0.0.1
-author: Luciano Oliveira
-homepage:
+homepage: https://github.com/luciano-work/we_slide
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
