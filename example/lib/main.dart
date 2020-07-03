@@ -1,5 +1,11 @@
+import 'package:example/pages/explore.dart';
 import 'package:flutter/material.dart';
 import 'package:we_slide/we_slide.dart';
+import 'widgets/custom_bottom_bar.dart';
+import 'widgets/miniplayer.dart';
+import 'theme.dart';
+import 'pages/player.dart';
+import 'pages/explore.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,6 +16,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.light,
+      theme: AppTheme.lightThemeData,
+      darkTheme: AppTheme.darkThemeData,
       title: 'WeSlide Demo',
       debugShowCheckedModeBanner: false,
       home: HomePage(),
@@ -31,14 +40,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       resizeToAvoidBottomPadding: false,
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.background,
       body: WeSlide(
         controller: controller,
         panelMaxSize: 0.0,
-        panelMinSize: 135.0, //controller.player.currentMusic != null ? 135.0 : 0.0,
+        panelMinSize: 130.0, //controller.player.currentMusic != null ? 135.0 : 0.0,
         hideFooter: true,
         borderRadiusBegin: 12.0,
         borderRadiusEnd: 0.0,
@@ -52,13 +62,10 @@ class _HomePageState extends State<HomePage> {
           TweenSequenceItem<double>(weight: 1.0, tween: Tween(begin: 1, end: 0)),
           TweenSequenceItem<double>(weight: 8.0, tween: Tween(begin: 0, end: 0)),
         ],
-        body: Container(color: Colors.white),
-        panel: Container(color: Colors.red),
-        collapsed: Container(color: Colors.green),
-        footer: Container(
-          color: Colors.blue,
-          height: footerHeight,
-        ),
+        body: Explore(),
+        panel: MiniPlayer(onTap: controller.show),
+        collapsed: Player(onTap: controller.hide),
+        footer: CustomBottomBar(onTap: (int index) {}, selectedIndex: 0),
       ),
     );
   }

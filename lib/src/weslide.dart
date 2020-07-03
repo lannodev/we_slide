@@ -78,7 +78,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
-        // Body
+        /** Body widget **/
         AnimatedBuilder(
           animation: widget.controller.ac,
           builder: (context, child) {
@@ -93,7 +93,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
             child: widget.body,
           ),
         ),
-        // Overlay Effect
+        /** Overlay Effect **/
         AnimatedBuilder(
           animation: widget.controller.ac,
           builder: (context, _) {
@@ -104,8 +104,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
             );
           },
         ),
-        // Collapse Panel
-
+        /** Panel widget **/
         AnimatedBuilder(
           animation: widget.controller.ac,
           builder: (context, child) {
@@ -129,7 +128,9 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           },
           child: Stack(
             children: <Widget>[
+              /** collapsed Panel widget **/
               widget.collapsed ?? Container(),
+              /** Panel widget **/
               widget.panel != null
                   ? FadeTransition(
                       opacity: widget.controller.fadeAnimation,
