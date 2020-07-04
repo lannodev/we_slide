@@ -63,8 +63,8 @@ class _HomePageState extends State<HomePage> {
           TweenSequenceItem<double>(weight: 8.0, tween: Tween(begin: 0, end: 0)),
         ],
         body: Explore(),
-        panel: MiniPlayer(onTap: controller.show),
-        collapsed: Player(onTap: controller.hide),
+        panel: Player(onTap: controller.hide),
+        collapsed: MiniPlayer(onTap: controller.show),
         footer: CustomBottomBar(onTap: (int index) {}, selectedIndex: 0),
       ),
     );

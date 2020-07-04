@@ -129,9 +129,9 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           child: Stack(
             children: <Widget>[
               /** collapsed Panel widget **/
-              widget.collapsed ?? Container(),
-              /** Panel widget **/
-              widget.panel != null
+              widget.panel ?? Container(),
+              // /** Panel widget **/
+              widget.collapsed != null
                   ? FadeTransition(
                       opacity: widget.controller.fadeAnimation,
                       child: ValueListenableBuilder(
@@ -139,7 +139,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                         builder: (_, __, ___) {
                           return IgnorePointer(
                             ignoring: widget.controller.isPanelVisible.value,
-                            child: widget.panel,
+                            child: widget.collapsed,
                           );
                         },
                       ),
