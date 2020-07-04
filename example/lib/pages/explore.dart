@@ -8,18 +8,22 @@ class Explore extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final _scrollController = ScrollController();
+
+    List<String> thumb = [
+      "assets/thumb/815PpyOuOUQ.jpg",
+      "assets/thumb/DaKrLaniTjk.jpg",
+      "assets/thumb/DO2JNXhL2fE.jpg",
+      "assets/thumb/fIW3jcK1Esk.jpg",
+      "assets/thumb/l6_UAx20jp8.jpg",
+      "assets/thumb/o_n2SNLc7GI.jpg",
+      "assets/thumb/QIB2RrUOqe4.jpg",
+      "assets/thumb/taFooeO0lBY.jpg",
+      "assets/thumb/u0MYUB0ediE.jpg",
+      "assets/thumb/XVztg3oXmX4.jpg",
+      "assets/thumb/2X21RgXOs6Q.jpg",
+    ];
+
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            colorScheme.primary.withOpacity(0.50),
-            colorScheme.background.withOpacity(0.10),
-          ],
-          stops: [0.01, 0.6],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
       child: ListView(
         padding: const EdgeInsets.all(12.0),
         physics: BouncingScrollPhysics(),
@@ -49,14 +53,14 @@ class Explore extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Recent",
+                        "Recently",
                         style: textTheme.subtitle2.apply(color: colorScheme.onPrimary),
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            "player",
+                            "Played",
                             style: textTheme.headline5.apply(color: colorScheme.onPrimary),
                           ),
                           Icon(
@@ -69,25 +73,101 @@ class Explore extends StatelessWidget {
                   ),
                   SizedBox(height: 12.0),
                   Container(
-                    height: 100,
+                    height: 90,
                     child: ListView.builder(
                       physics: BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       controller: _scrollController,
-                      itemCount: 10,
+                      itemCount: thumb.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: Container(
-                            height: 100,
-                            width: 100,
-                            child: Image.network("https://sun9-44.userapi.com/c858028/v858028378/9541a/PTXC2FvnX9g.jpg"),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(thumb[index]),
                           ),
                         );
                       },
                     ),
                   ),
                   SizedBox(height: 24.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "New Albums",
+                            style: textTheme.headline5.apply(color: colorScheme.onPrimary),
+                          ),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: colorScheme.primary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 12.0),
+                  Container(
+                    height: 150,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: thumb.length,
+                      reverse: true,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(thumb[index]),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 24.0),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            "Selected for you",
+                            style: textTheme.headline5.apply(color: colorScheme.onPrimary),
+                          ),
+                          Icon(
+                            Icons.arrow_drop_down,
+                            color: colorScheme.primary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 12.0),
+                  Container(
+                    height: 90,
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      controller: _scrollController,
+                      itemCount: thumb.length,
+                      reverse: true,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Image.asset(thumb[index]),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ],

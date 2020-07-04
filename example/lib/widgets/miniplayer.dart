@@ -19,11 +19,14 @@ class MiniPlayer extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Row(
                 children: <Widget>[
-                  Container(
-                    color: Colors.white,
-                    height: 50.0,
-                    width: 50.0,
-                    child: Image.network("https://sun9-66.userapi.com/c858028/v858028378/95422/sb_LfqgbzNg.jpg"),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Container(
+                      color: Colors.white,
+                      height: 50.0,
+                      width: 50.0,
+                      child: Image.asset("assets/thumb/XVztg3oXmX4.jpg"),
+                    ),
                   ),
                   SizedBox(width: 12.0),
                   Expanded(

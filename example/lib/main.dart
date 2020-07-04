@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
       body: WeSlide(
         controller: controller,
         panelMaxSize: 0.0,
-        panelMinSize: 130.0, //controller.player.currentMusic != null ? 135.0 : 0.0,
+        panelMinSize: 130.0,
         hideFooter: true,
         borderRadiusBegin: 12.0,
         borderRadiusEnd: 0.0,

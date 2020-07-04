@@ -12,24 +12,32 @@ class Player extends StatefulWidget {
 class _PlayerState extends State<Player> {
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     final cardSize = MediaQuery.of(context).size.height * 0.4;
     return SingleChildScrollView(
       physics: BouncingScrollPhysics(),
       child: Stack(
         children: <Widget>[
-          Container(
-            //color: colorScheme.primary,
-            decoration: BoxDecoration(
-              //color: _paletteColor,
-              gradient: LinearGradient(
-                colors: [Color(0xFF57D780), Color(0xFF0B1220)],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.0, 0.8],
+          Expanded(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              color: Color(0xFF57D780),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Color(0xFF0B1220).withOpacity(0.0), Color(0xFF0B1220).withOpacity(0.9)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: [0.0, 1.0],
+                ),
               ),
             ),
+          ),
+          Container(
             child: Column(
               children: <Widget>[
                 Container(
@@ -77,7 +85,7 @@ class _PlayerState extends State<Player> {
                             child: Container(
                               height: cardSize,
                               width: cardSize,
-                              child: Image.network("https://sun9-44.userapi.com/c858028/v858028378/9541a/PTXC2FvnX9g.jpg"),
+                              child: Image.asset("assets/thumb/XVztg3oXmX4.jpg"),
                             ),
                           ),
                           // Music info

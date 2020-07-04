@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const _lightFillColor = Color(0xFF0B1220);
+  static const _lightFillColor = Color(0xFF141b2d);
   static const _darkFillColor = Colors.white;
 
-  static final Color _lightFocusColor = Colors.black.withOpacity(0.12);
+  static final Color _lightFocusColor = _lightFillColor.withOpacity(0.12);
   static final Color _darkFocusColor = Colors.white.withOpacity(0.12);
 
   // static const _regular = FontWeight.w400;
@@ -22,7 +22,7 @@ class AppTheme {
       colorScheme: colorScheme,
       textTheme: _textTheme,
       // Matches manifest.json colors and background color.
-      primaryColor: const Color(0xFF030303),
+      primaryColor: _lightFillColor,
       backgroundColor: colorScheme.background,
       // appBarTheme: AppBarTheme(
       //   textTheme: _textTheme.apply(bodyColor: colorScheme.onPrimary),
