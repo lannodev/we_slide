@@ -1,14 +1,23 @@
-# we_slide
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a>
+    <img src="assets/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-A new Flutter package project.
+  <h3 align="center">WeNotify</h3>
+    [![pub package](https://img.shields.io/pub/v/we_slide.svg)](https://pub.dartlang.org/packages/we_slide)
+    [![GitHub Stars](https://img.shields.io/github/stars/luciano-work/we_slide?logo=github)](https://github.com/luciano-work/we_slide)
+    [![Platform](https://img.shields.io/badge/platform-android%20|%20ios-green.svg)](https://img.shields.io/badge/platform-Android%20%7C%20iOS-green.svg)
 
-## Getting Started
+<p align="center">A backdrop animated widget =] <br>
+A backdrop appears behind all other surfaces in an app, 
+<br>
+displaying contextual and actionable content.
+</p>
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+<p>
+  <img width="205px" alt="Example" src="assets/demo.gif"/>
+</p>
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+</p>
