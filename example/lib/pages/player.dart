@@ -18,22 +18,18 @@ class _PlayerState extends State<Player> {
       physics: BouncingScrollPhysics(),
       child: Stack(
         children: <Widget>[
-          Expanded(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              color: Color(0xFF57D780),
-            ),
+          Container(
+            height: MediaQuery.of(context).size.height,
+            color: Color(0xFF57D780),
           ),
-          Expanded(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF0B1220).withOpacity(0.0), Color(0xFF0B1220).withOpacity(0.9)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 1.0],
-                ),
+          Container(
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF0B1220).withOpacity(0.0), Color(0xFF0B1220).withOpacity(0.9)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: [0.0, 1.0],
               ),
             ),
           ),

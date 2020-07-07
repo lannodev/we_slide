@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 class WeSlideController {
   AnimationController ac;
   double screenHeight;
-  Animation<double> borderRadiusAnimation;
+  Animation<double> panelborderRadius;
+  Animation<double> bodyBorderRadius;
+  Animation<double> scaleAnimation;
   Animation fadeAnimation;
   final ValueNotifier<bool> isPanelVisible = ValueNotifier<bool>(false);
 
@@ -12,16 +14,16 @@ class WeSlideController {
 
   //hide the panel
   void hide() {
+    if (ac.value < 1.0) return;
     ac.reverse().then((x) {
-      print("** Hide Panel **");
       isPanelVisible.value = false;
     });
   }
 
   //show the panel
   void show() {
+    if (ac.value > 0.0) return;
     ac.forward().then((x) {
-      print("** Show Panel **");
       isPanelVisible.value = true;
     });
   }

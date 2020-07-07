@@ -24,6 +24,7 @@ class Explore extends StatelessWidget {
     ];
 
     return Container(
+      color: colorScheme.background,
       child: ListView(
         padding: const EdgeInsets.all(12.0),
         physics: BouncingScrollPhysics(),
