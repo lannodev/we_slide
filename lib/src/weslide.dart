@@ -23,22 +23,25 @@ class WeSlide extends StatefulWidget {
   final bool hidecollapsed;
   final bool parallax;
   final bool transformScale;
+
+  /// Controls the animations like open or close panel
+  /// If null, this widget will create its own [WeSlideController]
   final WeSlideController controller;
   final List<TweenSequenceItem<double>> fadeSequence;
   final Duration animateDuration;
 
   WeSlide({
-    WeSlideController controller,
+    this.controller,
     this.footer,
     this.body,
     this.panel,
     this.collapsed,
     this.panelMinSize = 200.0,
     this.panelMaxSize = 0.0,
-    this.panelBorderRadiusBegin = 12.0,
+    this.panelBorderRadiusBegin = 0.0,
     this.panelBorderRadiusEnd = 0.0,
     this.bodyBorderRadiusBegin = 0.0,
-    this.bodyBorderRadiusEnd = 12.0,
+    this.bodyBorderRadiusEnd = 0.0,
     this.transformScaleBegin = 1.0,
     this.transformScaleEnd = 0.9,
     this.parallaxOffset = 0.1,
@@ -48,12 +51,12 @@ class WeSlide extends StatefulWidget {
     this.footerOffset = 60.0,
     this.hideFooter = true,
     this.hidecollapsed = false,
-    this.parallax = true,
-    this.transformScale = true,
+    this.parallax = false,
+    this.transformScale = false,
     List<TweenSequenceItem<double>> fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
-  })  : assert(body != null, 'Body Widget could not be null'),
-        controller = controller ?? WeSlideController(),
+  })  : assert(body != null, 'Body widget could not be null'),
+        //assert(controller != null, 'Controller could not be null'),
         fadeSequence = fadeSequence ??
             [
               TweenSequenceItem<double>(weight: 1.0, tween: Tween(begin: 1, end: 0)),
@@ -65,18 +68,24 @@ class WeSlide extends StatefulWidget {
 }
 
 class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
+  WeSlideController _controller;
+  WeSlideController get _effectiveController => widget.controller ?? _controller;
+
   @override
   void initState() {
+    if (_effectiveController == null) {
+      _controller = WeSlideController();
+    }
     // Animation controller;
-    widget.controller.ac = AnimationController(vsync: this, duration: widget.animateDuration);
+    _effectiveController.ac = AnimationController(vsync: this, duration: widget.animateDuration);
     // panel Border radius animation
-    widget.controller.panelborderRadius = Tween<double>(begin: widget.panelBorderRadiusBegin, end: widget.panelBorderRadiusEnd).animate(widget.controller.ac);
+    _effectiveController.panelborderRadius = Tween<double>(begin: widget.panelBorderRadiusBegin, end: widget.panelBorderRadiusEnd).animate(_effectiveController.ac);
     // body border radius animation
-    widget.controller.bodyBorderRadius = Tween<double>(begin: widget.bodyBorderRadiusBegin, end: widget.bodyBorderRadiusEnd).animate(widget.controller.ac);
+    _effectiveController.bodyBorderRadius = Tween<double>(begin: widget.bodyBorderRadiusBegin, end: widget.bodyBorderRadiusEnd).animate(_effectiveController.ac);
     // Transform scale animation
-    widget.controller.scaleAnimation = Tween<double>(begin: widget.transformScaleBegin, end: widget.transformScaleEnd).animate(widget.controller.ac);
+    _effectiveController.scaleAnimation = Tween<double>(begin: widget.transformScaleBegin, end: widget.transformScaleEnd).animate(_effectiveController.ac);
     // Fade Animation sequence
-    widget.controller.fadeAnimation = TweenSequence(widget.fadeSequence).animate(widget.controller.ac);
+    _effectiveController.fadeAnimation = TweenSequence(widget.fadeSequence).animate(_effectiveController.ac);
     // Super Init State
     super.initState();
   }
@@ -84,7 +93,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   // Dispose
   @override
   void dispose() {
-    widget.controller.dispose();
+    _effectiveController.dispose();
     super.dispose();
   }
 
@@ -94,113 +103,112 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
     // Get screen height when rebuild
-    widget.controller.screenHeight = _height;
+    _effectiveController.screenHeight = _height;
 
-    return Container(
-      //color: widget.background,
-      child: Stack(
-        alignment: Alignment.bottomCenter,
-        children: <Widget>[
-          /** Body widget **/
-          AnimatedBuilder(
-            animation: widget.controller.ac,
-            builder: (context, child) {
-              return Positioned(
-                top: widget.parallax ? (widget.controller.ac.value * (widget.panelMaxSize - widget.panelMinSize) * widget.parallaxOffset) : 0.0,
-                child: Transform.scale(
-                  scale: widget.transformScale ? widget.controller.scaleAnimation.value : 1.0,
-                  alignment: Alignment.bottomCenter,
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: <Widget>[
+        /** Body widget **/
+        AnimatedBuilder(
+          animation: _effectiveController.ac,
+          builder: (context, child) {
+            return Positioned(
+              top: widget.parallax ? (_effectiveController.ac.value * (widget.panelMaxSize - widget.panelMinSize) * widget.parallaxOffset) : 0.0,
+              child: Transform.scale(
+                scale: widget.transformScale ? _effectiveController.scaleAnimation.value : 1.0,
+                alignment: Alignment.bottomCenter,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(_effectiveController.bodyBorderRadius.value),
+                    topRight: Radius.circular(_effectiveController.bodyBorderRadius.value),
+                  ),
+                  child: child,
+                ),
+              ),
+            );
+          },
+          child: Container(
+            height: _height - widget.panelMinSize,
+            width: _width,
+            child: widget.body,
+          ),
+        ),
+        /** Overlay Effect **/
+        AnimatedBuilder(
+          animation: _effectiveController.ac,
+          builder: (context, _) {
+            return Container(
+              color: _effectiveController.ac.value == 0.0 ? null : widget.backdropColor.withOpacity(widget.backdropOpacity * _effectiveController.ac.value),
+            );
+          },
+        ),
+        /* Fill with background color behind panel border radius */
+        Positioned(
+          bottom: 0.0,
+          width: MediaQuery.of(context).size.width,
+          height: widget.panelMinSize,
+          child: Container(color: widget.panelBackground),
+        ),
+        /** Panel widget **/
+        AnimatedBuilder(
+          animation: _effectiveController.ac,
+          builder: (context, child) {
+            return SlideTransition(
+              position: _effectiveController.getAnimationOffSet(maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
+              child: GestureDetector(
+                onVerticalDragUpdate: _effectiveController.handleVerticalUpdate,
+                onVerticalDragEnd: _effectiveController.handleVerticalEnd,
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(widget.controller.bodyBorderRadius.value),
-                      topRight: Radius.circular(widget.controller.bodyBorderRadius.value),
+                      topLeft: Radius.circular(_effectiveController.panelborderRadius.value),
+                      topRight: Radius.circular(_effectiveController.panelborderRadius.value),
                     ),
                     child: child,
                   ),
                 ),
-              );
-            },
-            child: Container(
-              height: _height - widget.panelMinSize,
-              width: _width,
-              child: widget.body,
-            ),
-          ),
-          /** Overlay Effect **/
-          AnimatedBuilder(
-            animation: widget.controller.ac,
-            builder: (context, _) {
-              return Container(
-                color: widget.controller.ac.value == 0.0 ? null : widget.backdropColor.withOpacity(widget.backdropOpacity * widget.controller.ac.value),
-              );
-            },
-          ),
-          /* Fill with background color behind panel border radius */
-          Positioned(
-            bottom: 0.0,
-            width: MediaQuery.of(context).size.width,
-            height: widget.panelMinSize,
-            child: Container(color: widget.panelBackground),
-          ),
-          /** Panel widget **/
-          AnimatedBuilder(
-            animation: widget.controller.ac,
-            builder: (context, child) {
-              return SlideTransition(
-                position: widget.controller.getAnimationOffSet(maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
-                child: GestureDetector(
-                  onVerticalDragUpdate: widget.controller.handleVerticalUpdate,
-                  onVerticalDragEnd: widget.controller.handleVerticalEnd,
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(widget.controller.panelborderRadius.value),
-                        topRight: Radius.circular(widget.controller.panelborderRadius.value),
+              ),
+            );
+          },
+          child: Stack(
+            children: <Widget>[
+              /** Panel widget **/
+              widget.panel ?? Container(),
+              /** collapsed widget **/
+              widget.collapsed != null && widget.hidecollapsed
+                  ? FadeTransition(
+                      opacity: _effectiveController.fadeAnimation,
+                      child: ValueListenableBuilder(
+                        valueListenable: _effectiveController.isPanelVisible,
+                        builder: (_, __, ___) {
+                          return IgnorePointer(
+                            ignoring: _effectiveController.isPanelVisible.value && widget.hidecollapsed,
+                            child: widget.collapsed,
+                          );
+                        },
                       ),
-                      child: child,
-                    ),
-                  ),
-                ),
-              );
-            },
-            child: Stack(
-              children: <Widget>[
-                /** Panel widget **/
-                widget.panel ?? Container(),
-                /** collapsed widget **/
-                widget.collapsed != null && widget.hidecollapsed
-                    ? FadeTransition(
-                        opacity: widget.controller.fadeAnimation,
-                        child: ValueListenableBuilder(
-                          valueListenable: widget.controller.isPanelVisible,
-                          builder: (_, __, ___) {
-                            return IgnorePointer(
-                              ignoring: widget.controller.isPanelVisible.value && widget.hidecollapsed,
-                              child: widget.collapsed,
-                            );
-                          },
-                        ),
-                      )
-                    : Container(),
-                /** collapsed widget is null **/
-                widget.collapsed != null && !widget.hidecollapsed ? widget.collapsed : Container(),
-              ],
-            ),
+                    )
+                  : Container(),
+              /** collapsed widget is null **/
+              widget.collapsed != null && !widget.hidecollapsed ? widget.collapsed : Container(),
+            ],
           ),
-          // Footer Widget
-          AnimatedBuilder(
-            animation: widget.controller.ac,
-            builder: (context, child) {
-              return Positioned(
-                bottom: widget.hideFooter ? widget.controller.ac.value * -widget.footerOffset : 0.0,
-                width: MediaQuery.of(context).size.width,
-                child: widget.footer ?? Container(),
-              );
-            },
-          ),
-        ],
-      ),
+        ),
+        // Footer Widget
+        widget.footer != null
+            ? AnimatedBuilder(
+                animation: _effectiveController.ac,
+                builder: (context, child) {
+                  return Positioned(
+                    bottom: widget.hideFooter ? _effectiveController.ac.value * -widget.footerOffset : 0.0,
+                    width: MediaQuery.of(context).size.width,
+                    child: widget.footer,
+                  );
+                },
+              )
+            : Container(),
+      ],
     );
   }
 }
