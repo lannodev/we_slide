@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="assets/logo.png" width="80" height="80">
+    <img src="assets/logo.png" width="300" >
 </p>
 
 # we_slide
