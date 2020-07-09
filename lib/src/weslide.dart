@@ -36,8 +36,8 @@ class WeSlide extends StatefulWidget {
     this.body,
     this.panel,
     this.collapsed,
-    this.panelMinSize = 200.0,
-    this.panelMaxSize = 0.0,
+    this.panelMinSize = 150.0,
+    this.panelMaxSize = 400.0,
     this.panelBorderRadiusBegin = 0.0,
     this.panelBorderRadiusEnd = 0.0,
     this.bodyBorderRadiusBegin = 0.0,
@@ -45,18 +45,20 @@ class WeSlide extends StatefulWidget {
     this.transformScaleBegin = 1.0,
     this.transformScaleEnd = 0.9,
     this.parallaxOffset = 0.1,
-    this.backdropOpacity = 0.8,
+    this.backdropOpacity = 0.0,
     this.backdropColor = Colors.black,
     this.panelBackground = Colors.black,
     this.footerOffset = 60.0,
     this.hideFooter = true,
-    this.hidecollapsed = false,
+    this.hidecollapsed = true,
     this.parallax = false,
     this.transformScale = false,
     List<TweenSequenceItem<double>> fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
-  })  : assert(body != null, 'Body widget could not be null'),
-        //assert(controller != null, 'Controller could not be null'),
+  })  : assert(body != null, 'Body could not be null'),
+        assert(panelMinSize > 0.0, 'panelMinSize cannot be negative'),
+        assert(panel != null, 'panel could not be null'),
+        assert(panelMaxSize >= panelMinSize, 'panelMaxSize cannot be less than panelMinSize'),
         fadeSequence = fadeSequence ??
             [
               TweenSequenceItem<double>(weight: 1.0, tween: Tween(begin: 1, end: 0)),
@@ -99,11 +101,11 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    //MediaQuery Size
+    //Get MediaQuery Sizes
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    // Get screen height when rebuild
-    _effectiveController.screenHeight = _height;
+    // update panel height to controller when rebuild
+    _effectiveController.panelHeight = widget.panelMaxSize;
 
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -159,6 +161,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                 onVerticalDragUpdate: _effectiveController.handleVerticalUpdate,
                 onVerticalDragEnd: _effectiveController.handleVerticalEnd,
                 child: AnimatedContainer(
+                  height: widget.panelMaxSize,
                   duration: Duration(milliseconds: 300),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(

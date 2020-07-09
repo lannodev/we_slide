@@ -27,41 +27,34 @@ dependencies:
 ```dart
 import 'package:we_slide/we_slide.dart';
 
-
-
+final _colorScheme = Theme.of(context).colorScheme;
+final double _panelMinSize = 70.0;
+final double _panelMaxSize = MediaQuery.of(context).size.height / 2;
 return Scaffold(
-  resizeToAvoidBottomInset: false,
-  resizeToAvoidBottomPadding: false,
   backgroundColor: Colors.black,
   body: WeSlide(
-    controller: controller,
-    panelMaxSize: 0.0,
-    panelMinSize: 130.0,
-    hideFooter: true,
-    hidecollapsed: true,
-    panelBorderRadiusBegin: 12.0,
-    panelBorderRadiusEnd: 0.0,
-    bodyBorderRadiusBegin: 0.0,
-    bodyBorderRadiusEnd: 12.0,
-    parallax: false,
-    transformScale: true,
-    parallaxOffset: 0.9,
-    footerOffset: footerHeight,
-    backdropOpacity: 0.9,
-    backdropColor: Colors.black,
-    panelBackground: colorScheme.background,
-    animateDuration: const Duration(milliseconds: 200),
-    fadeSequence: [
-      TweenSequenceItem<double>(weight: 1.0, tween: Tween(begin: 1, end: 0)),
-      TweenSequenceItem<double>(weight: 8.0, tween: Tween(begin: 0, end: 0)),
-    ],
-    body: Explore(),
-    panel: Player(onTap: controller.hide),
-    collapsed: MiniPlayer(onTap: controller.show),
-    footer: CustomBottomBar(onTap: (int index) {}, selectedIndex: 0),
+    panelMinSize: _panelMinSize,
+    panelMaxSize: _panelMaxSize,
+    body: Container(
+      color: _colorScheme.background,
+      child: Center(child: Text("This is the body 💪")),
+    ),
+    panel: Container(
+      color: _colorScheme.primary,
+      child: Center(child: Text("This is the panel 😊")),
+    ),
+    collapsed: Container(
+      height: _panelMinSize,
+      color: _colorScheme.secondary,
+      child: Center(child: Text("Slide to Up ☝️")),
+    ),
   ),
 );
 
 ```
+
+<p>
+  <img width="205px" alt="Example" src="assets/basic_example.gif"/>
+</p>
 
 

@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 
 class WeSlideController {
   AnimationController ac;
-  double screenHeight;
+  double panelHeight;
   Animation<double> panelborderRadius;
   Animation<double> bodyBorderRadius;
   Animation<double> scaleAnimation;
   Animation fadeAnimation;
   final ValueNotifier<bool> isPanelVisible = ValueNotifier<bool>(false);
-
-  WeSlideController();
 
   //hide the panel
   void hide() {
@@ -43,14 +41,14 @@ class WeSlideController {
 
   // Gesture Vertical Update
   void handleVerticalUpdate(DragUpdateDetails updateDetails) {
-    var fractionDragged = updateDetails.primaryDelta / screenHeight;
+    var fractionDragged = updateDetails.primaryDelta / panelHeight;
     ac.value -= 1.5 * fractionDragged;
   }
 
   // Get Body Animation
   Animation<Offset> getAnimationOffSet({@required double minSize, @required double maxSize}) {
-    final _closedPercentage = (screenHeight - minSize) / screenHeight;
-    final _openPercentage = maxSize / screenHeight;
+    final _closedPercentage = (panelHeight - minSize) / panelHeight;
+    final _openPercentage = (panelHeight - maxSize) / panelHeight;
     return Tween<Offset>(begin: Offset(0.0, _closedPercentage), end: Offset(0.0, _openPercentage)).animate(ac);
   }
 

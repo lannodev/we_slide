@@ -9,17 +9,14 @@ class Basic extends StatefulWidget {
 }
 
 class _BasicState extends State<Basic> {
-  //Init Controller
-  WeSlideController _controller = WeSlideController();
   @override
   Widget build(BuildContext context) {
     final _colorScheme = Theme.of(context).colorScheme;
     final double _panelMinSize = 70.0;
-    final double _panelMaxSize = 150.0;
+    final double _panelMaxSize = MediaQuery.of(context).size.height / 2;
     return Scaffold(
       backgroundColor: Colors.black,
       body: WeSlide(
-        //controller: _controller,
         panelMinSize: _panelMinSize,
         panelMaxSize: _panelMaxSize,
         body: Container(
@@ -33,7 +30,7 @@ class _BasicState extends State<Basic> {
         collapsed: Container(
           height: _panelMinSize,
           color: _colorScheme.secondary,
-          child: Center(child: Text("This is the Collapsed ☝️")),
+          child: Center(child: Text("Slide to Up ☝️")),
         ),
       ),
     );
