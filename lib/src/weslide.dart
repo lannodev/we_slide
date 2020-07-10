@@ -8,10 +8,12 @@ class WeSlide extends StatefulWidget {
   final Widget collapsed;
   final double panelMinSize;
   final double panelMaxSize;
+  final double panelWidth;
   final double panelBorderRadiusBegin;
   final double panelBorderRadiusEnd;
   final double bodyBorderRadiusBegin;
   final double bodyBorderRadiusEnd;
+  final double bodyWidth;
   final double parallaxOffset;
   final double footerOffset;
   final double backdropOpacity;
@@ -38,10 +40,12 @@ class WeSlide extends StatefulWidget {
     this.collapsed,
     this.panelMinSize = 150.0,
     this.panelMaxSize = 400.0,
+    this.panelWidth,
     this.panelBorderRadiusBegin = 0.0,
     this.panelBorderRadiusEnd = 0.0,
     this.bodyBorderRadiusBegin = 0.0,
     this.bodyBorderRadiusEnd = 0.0,
+    this.bodyWidth,
     this.transformScaleBegin = 1.0,
     this.transformScaleEnd = 0.9,
     this.parallaxOffset = 0.1,
@@ -56,7 +60,7 @@ class WeSlide extends StatefulWidget {
     List<TweenSequenceItem<double>> fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
   })  : assert(body != null, 'Body could not be null'),
-        assert(panelMinSize > 0.0, 'panelMinSize cannot be negative'),
+        assert(panelMinSize >= 0.0, 'panelMinSize cannot be negative'),
         assert(panel != null, 'panel could not be null'),
         assert(panelMaxSize >= panelMinSize, 'panelMaxSize cannot be less than panelMinSize'),
         fadeSequence = fadeSequence ??
@@ -131,7 +135,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           },
           child: Container(
             height: _height - widget.panelMinSize,
-            width: _width,
+            width: widget.bodyWidth ?? _width,
             child: widget.body,
           ),
         ),
@@ -147,14 +151,16 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
         /* Fill with background color behind panel border radius */
         Positioned(
           bottom: 0.0,
-          width: MediaQuery.of(context).size.width,
+          width: widget.panelWidth ?? _width,
           height: widget.panelMinSize,
-          child: Container(color: widget.panelBackground),
+          child: Container(
+            color: widget.panelBackground,
+          ),
         ),
         /** Panel widget **/
         AnimatedBuilder(
           animation: _effectiveController.ac,
-          builder: (context, child) {
+          builder: (_, child) {
             return SlideTransition(
               position: _effectiveController.getAnimationOffSet(maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
               child: GestureDetector(
@@ -162,7 +168,8 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                 onVerticalDragEnd: _effectiveController.handleVerticalEnd,
                 child: AnimatedContainer(
                   height: widget.panelMaxSize,
-                  duration: Duration(milliseconds: 300),
+                  width: widget.panelWidth ?? _width,
+                  duration: Duration(milliseconds: 200),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(_effectiveController.panelborderRadius.value),

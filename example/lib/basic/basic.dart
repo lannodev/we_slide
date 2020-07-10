@@ -19,6 +19,9 @@ class _BasicState extends State<Basic> {
       body: WeSlide(
         panelMinSize: _panelMinSize,
         panelMaxSize: _panelMaxSize,
+        panelBackground: _colorScheme.background,
+        panelBorderRadiusBegin: 12.0,
+        panelBorderRadiusEnd: 12.0,
         body: Container(
           color: _colorScheme.background,
           child: Center(child: Text("This is the body 💪")),

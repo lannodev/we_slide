@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkThemeData,
       title: 'WeSlide Demo',
       debugShowCheckedModeBanner: false,
-      home: Basic(),
-      //home: Complex(),
+      //home: Basic(),
+      home: Complex(),
     );
   }
 }

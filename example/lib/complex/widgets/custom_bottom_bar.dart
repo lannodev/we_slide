@@ -38,6 +38,7 @@ class CustomBottomBar extends StatelessWidget {
             title: Text('LIBRARY'),
           ),
         ],
+        elevation: 0,
         currentIndex: selectedIndex,
         backgroundColor: colorScheme.surface,
         type: BottomNavigationBarType.fixed,

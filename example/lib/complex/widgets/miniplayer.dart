@@ -21,10 +21,9 @@ class MiniPlayer extends StatelessWidget {
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Container(
-                      color: Colors.white,
-                      height: 50.0,
-                      width: 50.0,
+                    child: SizedBox(
+                      height: 50,
+                      width: 50,
                       child: Image.asset("assets/thumb/XVztg3oXmX4.jpg"),
                     ),
                   ),

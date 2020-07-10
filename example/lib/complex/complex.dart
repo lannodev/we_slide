@@ -16,17 +16,19 @@ class Complex extends StatefulWidget {
 class _ComplexState extends State<Complex> {
   // Controller
   WeSlideController controller = WeSlideController();
-  double footerHeight = 60.0;
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final double _panelMinSize = 130.0;
+    final double _panelMaxSize = MediaQuery.of(context).size.height;
+    final double _footerOffset = 60.0;
     return Scaffold(
       backgroundColor: Colors.black,
       body: WeSlide(
         controller: controller,
-        panelMaxSize: 0.0,
-        panelMinSize: 130.0,
+        panelMaxSize: _panelMaxSize,
+        panelMinSize: _panelMinSize,
         hideFooter: true,
         hidecollapsed: true,
         panelBorderRadiusBegin: 12.0,
@@ -36,7 +38,7 @@ class _ComplexState extends State<Complex> {
         parallax: false,
         transformScale: true,
         parallaxOffset: 0.9,
-        footerOffset: footerHeight,
+        footerOffset: _footerOffset,
         backdropOpacity: 0.9,
         backdropColor: Colors.black,
         panelBackground: colorScheme.background,
