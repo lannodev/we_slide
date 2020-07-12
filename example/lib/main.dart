@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'basic/basic.dart';
 import 'complex/complex.dart';
+import 'spotify/spotify.dart';
 import 'theme.dart';
 
 void main() {
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       title: 'WeSlide Demo',
       debugShowCheckedModeBanner: false,
       //home: Basic(),
-      home: Complex(),
+      //home: Complex(),
+      home: Spotify(),
     );
   }
 }
