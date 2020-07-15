@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 //import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const _lightFillColor = Color(0xFF141b2d);
+  static const _lightFillColor = Colors.black;
   static const _darkFillColor = Colors.white;
 
   static final Color _lightFocusColor = _lightFillColor.withOpacity(0.12);
@@ -16,6 +16,7 @@ class AppTheme {
 
   static ThemeData lightThemeData = themeData(lightColorScheme, _lightFocusColor);
   static ThemeData darkThemeData = themeData(darkColorScheme, _darkFocusColor);
+  static ThemeData blueDarkThemeData = themeData(blueDarkColorScheme, _darkFocusColor);
 
   static ThemeData themeData(ColorScheme colorScheme, Color focusColor) {
     return ThemeData(
@@ -65,8 +66,8 @@ class AppTheme {
     brightness: Brightness.light,
   );
 
-  // Dark Colors Scheme
-  static const ColorScheme darkColorScheme = ColorScheme(
+  // Blue dark Colors Scheme
+  static const ColorScheme blueDarkColorScheme = ColorScheme(
     primary: Color(0xFF57D780),
     primaryVariant: Color(0xFF57D780),
     secondary: Color(0xFFff5678),
@@ -74,6 +75,23 @@ class AppTheme {
     background: Color(0xFF0B1220),
     surface: Color(0xFF111727),
     onBackground: Color(0xFF141b2d),
+    error: _darkFillColor,
+    onError: _darkFillColor,
+    onPrimary: _darkFillColor,
+    onSecondary: _darkFillColor,
+    onSurface: _darkFillColor,
+    brightness: Brightness.dark,
+  );
+
+  // Black Colors Scheme
+  static const ColorScheme darkColorScheme = ColorScheme(
+    primary: Color(0xFF57D780),
+    primaryVariant: Color(0xFF57D780),
+    secondary: Color(0xFFff5678),
+    secondaryVariant: Color(0xFFff5678),
+    background: Color(0xFF181818),
+    surface: Color(0xFF282828),
+    onBackground: Color(0xFF282828),
     error: _darkFillColor,
     onError: _darkFillColor,
     onPrimary: _darkFillColor,

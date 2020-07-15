@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'basic/basic.dart';
-import 'complex/complex.dart';
-import 'spotify/spotify.dart';
+import 'music_app/music_app.dart';
 import 'theme.dart';
 
 void main() {
@@ -14,14 +13,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       theme: AppTheme.lightThemeData,
       darkTheme: AppTheme.darkThemeData,
       title: 'WeSlide Demo',
       debugShowCheckedModeBanner: false,
       //home: Basic(),
       //home: Complex(),
-      home: Spotify(),
+      home: MusicApp(),
     );
   }
 }

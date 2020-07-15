@@ -17,6 +17,7 @@ class _PlaylistItemState extends State<PlaylistItem> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final colorTheme = Theme.of(context).colorScheme;
     return Container(
       width: size.width,
       child: Column(
@@ -37,12 +38,12 @@ class _PlaylistItemState extends State<PlaylistItem> {
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      Text(widget.playlist.name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20))
+                      Text(widget.playlist.name, style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600, fontSize: 20))
                     ],
                   )
                 : Text(
                     widget.playlist.name,
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 20),
+                    style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600, fontSize: 20),
                   ),
           ),
           SizedBox(height: 15.0),
@@ -72,21 +73,28 @@ class _PlaylistItemState extends State<PlaylistItem> {
                     if (widget.small)
                       Padding(
                         padding: const EdgeInsets.only(left: 10, top: 10),
-                        child: Text(
-                          item.name,
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+                        child: Container(
+                          width: widget.small ? 100 : 150,
+                          child: Text(
+                            item.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600),
+                          ),
                         ),
                       ),
                     if (!widget.small)
                       Padding(
                         padding: const EdgeInsets.only(left: 10, top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(item.name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
-                            SizedBox(height: 5.0),
-                            Text('${item.artist}', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                          ],
+                        child: Container(
+                          width: widget.small ? 100 : 150,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(item.name, overflow: TextOverflow.ellipsis, style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600)),
+                              SizedBox(height: 5.0),
+                              Text(item.artist, overflow: TextOverflow.ellipsis, style: TextStyle(color: colorTheme.onPrimary.withOpacity(0.5), fontSize: 12)),
+                            ],
+                          ),
                         ),
                       ),
                   ],

@@ -1,4 +1,4 @@
-import 'package:example/spotify/playlist_type.dart';
+import 'playlist_type.dart';
 import 'package:flutter/material.dart';
 
 import 'model/playlist.dart';
@@ -14,7 +14,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _controller = ScrollController();
-  var _opacity = 1.0;
+  ValueNotifier<double> _opacity = ValueNotifier<double>(1.0);
 
   static var _recents = [
     Song(albumCover: "assets/thumb/815PpyOuOUQ.jpg", name: "Dirty Talk", artist: "Lothief"),
@@ -59,64 +59,69 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _controller.addListener(() {
-      setState(() {
-        if (_opacity == 1.0 && _controller.offset > 20) {
-          setState(() => _opacity = 0.0);
-        } else if (_opacity == 0.0 && _controller.offset < 20) {
-          setState(() => _opacity = 1.0);
-        }
-      });
+      if (_opacity.value == 1.0 && _controller.offset > 20) {
+        _opacity.value = 0.0;
+      } else if (_opacity.value == 0.0 && _controller.offset < 20) {
+        _opacity.value = 1.0;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final colorTheme = Theme.of(context).colorScheme;
     return Container(
       width: size.width,
       height: size.height,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Color(0xFF404040),
-            Color(0xFF181818),
-            Color(0xFF181818),
-            Color(0xFF181818),
-            Color(0xFF181818),
-          ],
-          begin: Alignment(-0.4, -1.2),
-          end: Alignment.bottomCenter,
-        ),
-      ),
+      color: colorTheme.background,
+      // decoration: BoxDecoration(
+      //   gradient: LinearGradient(
+      //     colors: [
+      //       Color(0xFF404040),
+      //       colorTheme.background,
+      //       colorTheme.background,
+      //       colorTheme.background,
+      //       colorTheme.background,
+      //     ],
+      //     begin: Alignment(-0.4, -1.2),
+      //     end: Alignment.bottomCenter,
+      //   ),
+      // ),
       child: Stack(
         children: [
-          AnimatedOpacity(
-            duration: Duration(milliseconds: 200),
-            opacity: _opacity,
-            child: Container(
-              height: 90,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Opacity(opacity: 1.0, child: Text('', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600))),
-                    ),
+          ValueListenableBuilder(
+            valueListenable: _opacity,
+            builder: (_, __, ___) {
+              return AnimatedOpacity(
+                duration: Duration(milliseconds: 200),
+                opacity: _opacity.value,
+                child: Container(
+                  height: 90,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Opacity(opacity: 1.0, child: Text('', style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600))),
+                        ),
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Opacity(opacity: 1.0, child: Text('', style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600))),
+                        ),
+                      ),
+                      Icon(Icons.settings, color: colorTheme.onPrimary),
+                      SizedBox(width: 10),
+                    ],
                   ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Opacity(opacity: 1.0, child: Text('', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600))),
-                    ),
-                  ),
-                  Icon(Icons.settings, color: Colors.white),
-                  SizedBox(width: 10),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
           ListView(
             controller: _controller,
