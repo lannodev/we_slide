@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'player.dart';
+
 class MiniPlayer extends StatefulWidget {
   MiniPlayer({Key key}) : super(key: key);
 
@@ -17,10 +19,20 @@ class _MiniPlayerState extends State<MiniPlayer> {
         height: 70.0,
         child: Row(
           children: [
-            Container(
-              width: 70,
-              height: 70,
-              child: Image.asset("assets/thumb/XVztg3oXmX4.jpg", fit: BoxFit.cover),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => Player(),
+                    fullscreenDialog: true,
+                  ),
+                );
+              },
+              child: Container(
+                width: 70,
+                height: 70,
+                child: Image.asset("assets/thumb/XVztg3oXmX4.jpg", fit: BoxFit.cover),
+              ),
             ),
             SizedBox(width: 20),
             Expanded(
