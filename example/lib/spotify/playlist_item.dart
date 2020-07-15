@@ -33,7 +33,7 @@ class _PlaylistItemState extends State<PlaylistItem> {
                         height: 40,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.network(widget.playlist.image, fit: BoxFit.cover),
+                          child: Image.asset(widget.playlist.image, fit: BoxFit.cover),
                         ),
                       ),
                       SizedBox(width: 10.0),
