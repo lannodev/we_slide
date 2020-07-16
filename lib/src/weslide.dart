@@ -111,6 +111,8 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     // update panel height to controller when rebuild
     _effectiveController.panelHeight = widget.panelMaxSize;
 
+    print(_effectiveController);
+
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
@@ -119,7 +121,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           animation: _effectiveController.ac,
           builder: (context, child) {
             return Positioned(
-              top: widget.parallax ? (_effectiveController.ac.value * (widget.panelMaxSize - widget.panelMinSize) * widget.parallaxOffset) : 0.0,
+              top: widget.parallax ? (_effectiveController.ac.value * (widget.panelMaxSize - widget.panelMinSize) * -widget.parallaxOffset) : 0.0,
               child: Transform.scale(
                 scale: widget.transformScale ? _effectiveController.scaleAnimation.value : 1.0,
                 alignment: Alignment.bottomCenter,
