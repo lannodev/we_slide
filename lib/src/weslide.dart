@@ -22,7 +22,7 @@ class WeSlide extends StatefulWidget {
   final Color backdropColor;
   final Color panelBackground;
   final bool hideFooter;
-  final bool hidecollapsed;
+  final bool hideCollapsed;
   final bool parallax;
   final bool transformScale;
 
@@ -54,7 +54,7 @@ class WeSlide extends StatefulWidget {
     this.panelBackground = Colors.black,
     this.footerOffset = 60.0,
     this.hideFooter = true,
-    this.hidecollapsed = true,
+    this.hideCollapsed = true,
     this.parallax = false,
     this.transformScale = false,
     List<TweenSequenceItem<double>> fadeSequence,
@@ -188,14 +188,14 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
               /** Panel widget **/
               widget.panel ?? Container(),
               /** collapsed widget **/
-              widget.collapsed != null && widget.hidecollapsed
+              widget.collapsed != null && widget.hideCollapsed
                   ? FadeTransition(
                       opacity: _effectiveController.fadeAnimation,
                       child: ValueListenableBuilder(
                         valueListenable: _effectiveController.isPanelVisible,
                         builder: (_, __, ___) {
                           return IgnorePointer(
-                            ignoring: _effectiveController.isPanelVisible.value && widget.hidecollapsed,
+                            ignoring: _effectiveController.isPanelVisible.value && widget.hideCollapsed,
                             child: widget.collapsed,
                           );
                         },
@@ -203,7 +203,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                     )
                   : Container(),
               /** collapsed widget is null **/
-              widget.collapsed != null && !widget.hidecollapsed ? widget.collapsed : Container(),
+              widget.collapsed != null && !widget.hideCollapsed ? widget.collapsed : Container(),
             ],
           ),
         ),

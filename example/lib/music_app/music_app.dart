@@ -23,7 +23,7 @@ class _MusicAppState extends State<MusicApp> {
         controller: _controller,
         panelMinSize: _panelMinSize,
         panelMaxSize: _panelMaxSize,
-        parallax: false,
+        parallax: true,
         body: Home(),
         collapsed: MiniPlayer(onTap: _controller.show),
         panel: Player(onTap: _controller.hide),
