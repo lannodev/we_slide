@@ -25,9 +25,6 @@ class WeSlide extends StatefulWidget {
   final bool hideCollapsed;
   final bool parallax;
   final bool transformScale;
-
-  /// Controls the animations like open or close panel
-  /// If null, this widget will create its own [WeSlideController]
   final WeSlideController controller;
   final List<TweenSequenceItem<double>> fadeSequence;
   final Duration animateDuration;
@@ -74,6 +71,12 @@ class WeSlide extends StatefulWidget {
 }
 
 class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
+  AnimationController _ac;
+  Animation<double> _panelborderRadius;
+  Animation<double> _bodyBorderRadius;
+  Animation<double> _scaleAnimation;
+  Animation _fadeAnimation;
+
   WeSlideController _controller;
   WeSlideController get _effectiveController => widget.controller ?? _controller;
 
@@ -82,16 +85,20 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     if (_effectiveController == null) {
       _controller = WeSlideController();
     }
+
+    _effectiveController.hide = hide;
+    _effectiveController.show = show;
+
     // Animation controller;
-    _effectiveController.ac = AnimationController(vsync: this, duration: widget.animateDuration);
+    _ac = AnimationController(vsync: this, duration: widget.animateDuration);
     // panel Border radius animation
-    _effectiveController.panelborderRadius = Tween<double>(begin: widget.panelBorderRadiusBegin, end: widget.panelBorderRadiusEnd).animate(_effectiveController.ac);
+    _panelborderRadius = Tween<double>(begin: widget.panelBorderRadiusBegin, end: widget.panelBorderRadiusEnd).animate(_ac);
     // body border radius animation
-    _effectiveController.bodyBorderRadius = Tween<double>(begin: widget.bodyBorderRadiusBegin, end: widget.bodyBorderRadiusEnd).animate(_effectiveController.ac);
+    _bodyBorderRadius = Tween<double>(begin: widget.bodyBorderRadiusBegin, end: widget.bodyBorderRadiusEnd).animate(_ac);
     // Transform scale animation
-    _effectiveController.scaleAnimation = Tween<double>(begin: widget.transformScaleBegin, end: widget.transformScaleEnd).animate(_effectiveController.ac);
+    _scaleAnimation = Tween<double>(begin: widget.transformScaleBegin, end: widget.transformScaleEnd).animate(_ac);
     // Fade Animation sequence
-    _effectiveController.fadeAnimation = TweenSequence(widget.fadeSequence).animate(_effectiveController.ac);
+    _fadeAnimation = TweenSequence(widget.fadeSequence).animate(_ac);
     // Super Init State
     super.initState();
   }
@@ -99,8 +106,50 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   // Dispose
   @override
   void dispose() {
-    _effectiveController.dispose();
+    _ac.dispose();
     super.dispose();
+  }
+
+  //hide the panel
+  void hide() {
+    if (_ac.value < 1.0) return;
+    _ac.reverse().then((x) {
+      _effectiveController.isPanelVisible.value = false;
+    });
+  }
+
+  //show the panel
+  void show() {
+    if (_ac.value > 0.0) return;
+    _ac.forward().then((x) {
+      _effectiveController.isPanelVisible.value = true;
+    });
+  }
+
+  // Gesture Vertical End
+  void _handleVerticalEnd(DragEndDetails endDetails) {
+    if (_ac.value >= 0.5) {
+      _ac.forward().then((x) {
+        _effectiveController.isPanelVisible.value = true;
+      });
+    } else {
+      _ac.reverse().then((x) {
+        _effectiveController.isPanelVisible.value = false;
+      });
+    }
+  }
+
+  // Gesture Vertical Update
+  void _handleVerticalUpdate(DragUpdateDetails updateDetails) {
+    var fractionDragged = updateDetails.primaryDelta / widget.panelMaxSize;
+    _ac.value -= 1.5 * fractionDragged;
+  }
+
+  // Get Body Animation
+  Animation<Offset> _getAnimationOffSet({@required double minSize, @required double maxSize}) {
+    final _closedPercentage = (widget.panelMaxSize - minSize) / widget.panelMaxSize;
+    final _openPercentage = (widget.panelMaxSize - maxSize) / widget.panelMaxSize;
+    return Tween<Offset>(begin: Offset(0.0, _closedPercentage), end: Offset(0.0, _openPercentage)).animate(_ac);
   }
 
   @override
@@ -108,27 +157,23 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     //Get MediaQuery Sizes
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
-    // update panel height to controller when rebuild
-    _effectiveController.panelHeight = widget.panelMaxSize;
-
-    print(_effectiveController);
 
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         /** Body widget **/
         AnimatedBuilder(
-          animation: _effectiveController.ac,
+          animation: _ac,
           builder: (context, child) {
             return Positioned(
-              top: widget.parallax ? (_effectiveController.ac.value * (widget.panelMaxSize - widget.panelMinSize) * -widget.parallaxOffset) : 0.0,
+              top: widget.parallax ? (_ac.value * (widget.panelMaxSize - widget.panelMinSize) * -widget.parallaxOffset) : 0.0,
               child: Transform.scale(
-                scale: widget.transformScale ? _effectiveController.scaleAnimation.value : 1.0,
+                scale: widget.transformScale ? _scaleAnimation.value : 1.0,
                 alignment: Alignment.bottomCenter,
                 child: ClipRRect(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(_effectiveController.bodyBorderRadius.value),
-                    topRight: Radius.circular(_effectiveController.bodyBorderRadius.value),
+                    topLeft: Radius.circular(_bodyBorderRadius.value),
+                    topRight: Radius.circular(_bodyBorderRadius.value),
                   ),
                   child: child,
                 ),
@@ -143,10 +188,10 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
         ),
         /** Overlay Effect **/
         AnimatedBuilder(
-          animation: _effectiveController.ac,
+          animation: _ac,
           builder: (context, _) {
             return Container(
-              color: _effectiveController.ac.value == 0.0 ? null : widget.backdropColor.withOpacity(widget.backdropOpacity * _effectiveController.ac.value),
+              color: _ac.value == 0.0 ? null : widget.backdropColor.withOpacity(widget.backdropOpacity * _ac.value),
             );
           },
         ),
@@ -161,21 +206,21 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
         ),
         /** Panel widget **/
         AnimatedBuilder(
-          animation: _effectiveController.ac,
+          animation: _ac,
           builder: (_, child) {
             return SlideTransition(
-              position: _effectiveController.getAnimationOffSet(maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
+              position: _getAnimationOffSet(maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
               child: GestureDetector(
-                onVerticalDragUpdate: _effectiveController.handleVerticalUpdate,
-                onVerticalDragEnd: _effectiveController.handleVerticalEnd,
+                onVerticalDragUpdate: _handleVerticalUpdate,
+                onVerticalDragEnd: _handleVerticalEnd,
                 child: AnimatedContainer(
                   height: widget.panelMaxSize,
                   width: widget.panelWidth ?? _width,
                   duration: Duration(milliseconds: 200),
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(_effectiveController.panelborderRadius.value),
-                      topRight: Radius.circular(_effectiveController.panelborderRadius.value),
+                      topLeft: Radius.circular(_panelborderRadius.value),
+                      topRight: Radius.circular(_panelborderRadius.value),
                     ),
                     child: child,
                   ),
@@ -190,7 +235,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
               /** collapsed widget **/
               widget.collapsed != null && widget.hideCollapsed
                   ? FadeTransition(
-                      opacity: _effectiveController.fadeAnimation,
+                      opacity: _fadeAnimation,
                       child: ValueListenableBuilder(
                         valueListenable: _effectiveController.isPanelVisible,
                         builder: (_, __, ___) {
@@ -210,10 +255,10 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
         // Footer Widget
         widget.footer != null
             ? AnimatedBuilder(
-                animation: _effectiveController.ac,
+                animation: _ac,
                 builder: (context, child) {
                   return Positioned(
-                    bottom: widget.hideFooter ? _effectiveController.ac.value * -widget.footerOffset : 0.0,
+                    bottom: widget.hideFooter ? _ac.value * -widget.footerOffset : 0.0,
                     width: MediaQuery.of(context).size.width,
                     child: widget.footer,
                   );
