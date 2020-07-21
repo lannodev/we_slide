@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:we_slide/we_slide.dart';
 import 'weslide_controller.dart';
 
+// ignore: must_be_immutable
 class WeSlide extends StatefulWidget {
   final Widget footer;
   final Widget body;
@@ -25,11 +27,12 @@ class WeSlide extends StatefulWidget {
   final bool hideCollapsed;
   final bool parallax;
   final bool transformScale;
-  final WeSlideController controller;
+  WeSlideController controller;
   final List<TweenSequenceItem<double>> fadeSequence;
   final Duration animateDuration;
 
   WeSlide({
+    Key key,
     this.controller,
     this.footer,
     this.body,
@@ -64,31 +67,39 @@ class WeSlide extends StatefulWidget {
             [
               TweenSequenceItem<double>(weight: 1.0, tween: Tween(begin: 1, end: 0)),
               TweenSequenceItem<double>(weight: 8.0, tween: Tween(begin: 0, end: 0)),
-            ];
+            ],
+        super(key: key) {
+    if (controller == null) {
+      this.controller = WeSlideController();
+    }
+  }
 
   @override
   _WeSlideState createState() => _WeSlideState();
 }
 
 class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
+  // Main Animation Controller
   AnimationController _ac;
+  // Panel Border Radius Effect[Tween]
   Animation<double> _panelborderRadius;
+  // Body Border Radius Effect [Tween]
   Animation<double> _bodyBorderRadius;
+  // Scale Animation Effect [Tween]
   Animation<double> _scaleAnimation;
+  // Collapse animation Effect [Tween]
   Animation _fadeAnimation;
 
-  WeSlideController _controller;
-  WeSlideController get _effectiveController => widget.controller ?? _controller;
+  // Get current controller
+  WeSlideController get _effectiveController => widget.controller;
+
+  // Check if panel is visible
+  bool get _ispanelVisible => _ac.status == AnimationStatus.completed || _ac.status == AnimationStatus.forward;
 
   @override
   void initState() {
-    if (_effectiveController == null) {
-      _controller = WeSlideController();
-    }
-
-    _effectiveController.hide = hide;
-    _effectiveController.show = show;
-
+    // Subscribe to animated when value change
+    _effectiveController.isPanelVisible?.addListener(_animatedPanel);
     // Animation controller;
     _ac = AnimationController(vsync: this, duration: widget.animateDuration);
     // panel Border radius animation
@@ -103,30 +114,38 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
+  /// Required for resubscribing when hot reload occurs [ValueNotifier]
+  @override
+  void didUpdateWidget(WeSlide oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    oldWidget.controller.isPanelVisible?.removeListener(_animatedPanel);
+    widget.controller.isPanelVisible?.addListener(_animatedPanel);
+  }
+
+  // Animate the panel [ValueNotifier]
+  void _animatedPanel() {
+    if (_effectiveController.isPanelVisible.value != _ispanelVisible) {
+      _ac.fling(velocity: _ispanelVisible ? -2.0 : 2.0);
+    }
+  }
+
   // Dispose
   @override
   void dispose() {
+    //Animation Controller
     _ac.dispose();
+    // ValueNotifier
+    _effectiveController.isPanelVisible?.dispose();
     super.dispose();
   }
 
-  //hide the panel
-  void hide() {
-    if (_ac.value < 1.0) return;
-    _ac.reverse().then((x) {
-      _effectiveController.isPanelVisible.value = false;
-    });
+  // Gesture Vertical Update [GestureDetector]
+  void _handleVerticalUpdate(DragUpdateDetails updateDetails) {
+    var fractionDragged = updateDetails.primaryDelta / widget.panelMaxSize;
+    _ac.value -= 1.5 * fractionDragged;
   }
 
-  //show the panel
-  void show() {
-    if (_ac.value > 0.0) return;
-    _ac.forward().then((x) {
-      _effectiveController.isPanelVisible.value = true;
-    });
-  }
-
-  // Gesture Vertical End
+  // Gesture Vertical End [GestureDetector]
   void _handleVerticalEnd(DragEndDetails endDetails) {
     if (_ac.value >= 0.5) {
       _ac.forward().then((x) {
@@ -139,13 +158,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     }
   }
 
-  // Gesture Vertical Update
-  void _handleVerticalUpdate(DragUpdateDetails updateDetails) {
-    var fractionDragged = updateDetails.primaryDelta / widget.panelMaxSize;
-    _ac.value -= 1.5 * fractionDragged;
-  }
-
-  // Get Body Animation
+  // Get Body Animation [Paralax]
   Animation<Offset> _getAnimationOffSet({@required double minSize, @required double maxSize}) {
     final _closedPercentage = (widget.panelMaxSize - minSize) / widget.panelMaxSize;
     final _openPercentage = (widget.panelMaxSize - maxSize) / widget.panelMaxSize;

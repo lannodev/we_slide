@@ -2,7 +2,16 @@
 import 'package:flutter/material.dart';
 
 class WeSlideController {
+  // Value notifier
   final ValueNotifier<bool> isPanelVisible = ValueNotifier<bool>(false);
-  Function show;
-  Function hide;
+
+  //show the panel
+  void show() {
+    isPanelVisible.value = true;
+  }
+
+  //hide the panel
+  void hide() {
+    isPanelVisible.value = false;
+  }
 }
