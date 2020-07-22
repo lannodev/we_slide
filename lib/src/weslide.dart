@@ -4,38 +4,119 @@ import 'weslide_controller.dart';
 
 // ignore: must_be_immutable
 class WeSlide extends StatefulWidget {
+  // This is the widget that will be below as a footer,
+  // this can be used as a [BottomNavigationBar]
   final Widget footer;
+
+  // This is the widget that will be hided with [Panel].
+  // You can fit any widget. This parameter is required
   final Widget body;
+
+  // This is the widget that will slide over the [Body].
+  // You can fit any widget.
   final Widget panel;
+
+  // This is the header that will be over the [Panel].
+  // You can fit any widget.
   final Widget collapsed;
+
+  // This is the initial value that set the panel min height.
+  // If the value is greater than 0, panel will be this size over [body]
+  // By default is [150.0]. Set [0.0] if you want to hide [Panel]
   final double panelMinSize;
+
+  // This is the value that set the panel max height.
+  // When slide up the panel this value define the max height
+  // that panel will be over [Body]. By default is [400.0]
+  // if you want that panel cover the whole [Body], set with
+  // MediaQuery.of(context).size.height
   final double panelMaxSize;
+
+  // This is the value that set the panel width
+  // by default is MediaQuery.of(context).size.width
   final double panelWidth;
+
+  // Set this value to create a border radius over Panel.
+  // When panelBorderRadiusBegin is diffrent from panelBorderRadiusEndis
+  // and the panel is slide up, this create an animation border over panel
+  // By default is 0.0
   final double panelBorderRadiusBegin;
+
+  // Set this value to create a border radius over Panel.
+  // When panelBorderRadiusBegin is diffrent from panelBorderRadiusEndis
+  // and the panel is slide up, this create an animation border over panel
+  // By default is 0.0
   final double panelBorderRadiusEnd;
+
+  // Set this value to create a border radius over Body.
+  // When bodyBorderRadiusBegin is diffrent from bodyBorderRadiusEnd
+  // and the panel is slide up, this create an animation border over body
+  // By default is 0.0
   final double bodyBorderRadiusBegin;
+
+  // Set this value to create a border radius over Body.
+  // When bodyBorderRadiusBegin is diffrent from bodyBorderRadiusEnd
+  // and the panel is slide up, this create an animation border over body
+  // By default is 0.0
   final double bodyBorderRadiusEnd;
+
+  // This is the value that set the body width
+  // by default is MediaQuery.of(context).size.width
   final double bodyWidth;
+
+  // Set this value to create a parallax effect when the panel is slide up.
+  // By default is 0.1
   final double parallaxOffset;
+
+  // Set this value to create an hide animation with footer
+  // Is recommended to set the footer height value
+  // by default is 60.0
   final double footerOffset;
-  final double backdropOpacity;
+
+  // This is the value that defines to create an overlay effect bethen body and panel.
+  final double overlayOpacity;
+
+  // This is the value that defines Transform scale begin effect
+  // By default is 1.0
   final double transformScaleBegin;
+
+  // This is the value that defines Transform scale end effect
+  // by default is 0.9
   final double transformScaleEnd;
-  final Color backdropColor;
+
+  // This is the value that defines overlay color effect.
+  // By default is Colors.black
+  final Color overlayColor;
+
+  // This is the value that defines background color panel.
+  // By default is Colors.black
   final Color panelBackground;
+
+  // This is the value that defines if you want to hide the footer.
+  // By default is true
   final bool hideFooter;
+
+  // This is the value that defines if you want to hide the collapsed [panel header].
+  // By default is true
   final bool hideCollapsed;
+
+  // This is the value that defines if you want to enable paralax effect.
+  // By default is false
   final bool parallax;
+
+  // This is the value that defines if you want to enable transform scale effect.
+  // By default is false
   final bool transformScale;
-  WeSlideController controller;
+
+  // This is the value that set
   final List<TweenSequenceItem<double>> fadeSequence;
   final Duration animateDuration;
+  WeSlideController controller;
 
   WeSlide({
     Key key,
-    this.controller,
     this.footer,
-    this.body,
+    @required this.body,
     this.panel,
     this.collapsed,
     this.panelMinSize = 150.0,
@@ -49,8 +130,8 @@ class WeSlide extends StatefulWidget {
     this.transformScaleBegin = 1.0,
     this.transformScaleEnd = 0.9,
     this.parallaxOffset = 0.1,
-    this.backdropOpacity = 0.0,
-    this.backdropColor = Colors.black,
+    this.overlayOpacity = 0.0,
+    this.overlayColor = Colors.black,
     this.panelBackground = Colors.black,
     this.footerOffset = 60.0,
     this.hideFooter = true,
@@ -59,6 +140,7 @@ class WeSlide extends StatefulWidget {
     this.transformScale = false,
     List<TweenSequenceItem<double>> fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
+    this.controller,
   })  : assert(body != null, 'Body could not be null'),
         assert(panelMinSize >= 0.0, 'panelMinSize cannot be negative'),
         assert(panel != null, 'panel could not be null'),
@@ -99,7 +181,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     // Subscribe to animated when value change
-    _effectiveController.isPanelVisible?.addListener(_animatedPanel);
+    _effectiveController?.addListener(_animatedPanel);
     // Animation controller;
     _ac = AnimationController(vsync: this, duration: widget.animateDuration);
     // panel Border radius animation
@@ -118,13 +200,13 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   @override
   void didUpdateWidget(WeSlide oldWidget) {
     super.didUpdateWidget(oldWidget);
-    oldWidget.controller.isPanelVisible?.removeListener(_animatedPanel);
-    widget.controller.isPanelVisible?.addListener(_animatedPanel);
+    oldWidget.controller?.removeListener(_animatedPanel);
+    widget.controller?.addListener(_animatedPanel);
   }
 
   // Animate the panel [ValueNotifier]
   void _animatedPanel() {
-    if (_effectiveController.isPanelVisible.value != _ispanelVisible) {
+    if (_effectiveController.value != _ispanelVisible) {
       _ac.fling(velocity: _ispanelVisible ? -2.0 : 2.0);
     }
   }
@@ -135,7 +217,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     //Animation Controller
     _ac.dispose();
     // ValueNotifier
-    _effectiveController.isPanelVisible?.dispose();
+    _effectiveController?.dispose();
     super.dispose();
   }
 
@@ -149,11 +231,11 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   void _handleVerticalEnd(DragEndDetails endDetails) {
     if (_ac.value >= 0.5) {
       _ac.forward().then((x) {
-        _effectiveController.isPanelVisible.value = true;
+        _effectiveController.value = true;
       });
     } else {
       _ac.reverse().then((x) {
-        _effectiveController.isPanelVisible.value = false;
+        _effectiveController.value = false;
       });
     }
   }
@@ -204,7 +286,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           animation: _ac,
           builder: (context, _) {
             return Container(
-              color: _ac.value == 0.0 ? null : widget.backdropColor.withOpacity(widget.backdropOpacity * _ac.value),
+              color: _ac.value == 0.0 ? null : widget.overlayColor.withOpacity(widget.overlayOpacity * _ac.value),
             );
           },
         ),
@@ -250,10 +332,10 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                   ? FadeTransition(
                       opacity: _fadeAnimation,
                       child: ValueListenableBuilder(
-                        valueListenable: _effectiveController.isPanelVisible,
+                        valueListenable: _effectiveController,
                         builder: (_, __, ___) {
                           return IgnorePointer(
-                            ignoring: _effectiveController.isPanelVisible.value && widget.hideCollapsed,
+                            ignoring: _effectiveController.value && widget.hideCollapsed,
                             child: widget.collapsed,
                           );
                         },
