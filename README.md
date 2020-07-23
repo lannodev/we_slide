@@ -12,7 +12,7 @@ rolled up my sleeves and created my own solution. Through this package I could b
 some principles of flutter animation :)
 
 <p>
-  <img width="205px" alt="Example" src="assets/demo.gif"/>
+  <img width="320px" alt="Example" src="assets/music_app.gif"/>
 </p>
 
 ## Installation
