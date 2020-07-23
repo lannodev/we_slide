@@ -60,7 +60,7 @@ There are many options that you can change:
 
 |  Properties  |   Type   |   Description   |
 |--------------|----------|-----------------|
-|   'footer'   |  Widget  | This is the widget that will be below as a footer, this can be used as a [BottomNavigationBar] |
+|   `footer`   |  Widget  | This is the widget that will be below as a footer, this can be used as a `BottomNavigationBar` |
 
 <p>
   <img width="205px" alt="Example" src="assets/basic_example.gif"/>
