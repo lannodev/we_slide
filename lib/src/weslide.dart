@@ -37,13 +37,13 @@ class WeSlide extends StatefulWidget {
   final double panelWidth;
 
   // Set this value to create a border radius over Panel.
-  // When panelBorderRadiusBegin is diffrent from panelBorderRadiusEndis
+  // When panelBorderRadiusBegin is diffrent from panelBorderRadiusEnd
   // and the panel is slide up, this create an animation border over panel
   // By default is 0.0
   final double panelBorderRadiusBegin;
 
   // Set this value to create a border radius over Panel.
-  // When panelBorderRadiusBegin is diffrent from panelBorderRadiusEndis
+  // When panelBorderRadiusBegin is diffrent from panelBorderRadiusEnd
   // and the panel is slide up, this create an animation border over panel
   // By default is 0.0
   final double panelBorderRadiusEnd;
