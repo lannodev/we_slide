@@ -18,7 +18,7 @@ class WeSlide extends StatefulWidget {
 
   // This is the header that will be over the [Panel].
   // You can fit any widget.
-  final Widget collapsed;
+  final Widget panelHeader;
 
   // This is the initial value that set the panel min height.
   // If the value is greater than 0, panel will be this size over [body]
@@ -56,12 +56,12 @@ class WeSlide extends StatefulWidget {
 
   // Set this value to create a border radius over Body.
   // When bodyBorderRadiusBegin is diffrent from bodyBorderRadiusEnd
-  // and the panel is slide up, this create an animation border over body
+  // and the panel is slide up, this create an animation border over body.
   // By default is 0.0
   final double bodyBorderRadiusEnd;
 
-  // This is the value that set the body width
-  // by default is MediaQuery.of(context).size.width
+  // This is the value that set the body width.
+  // By default is MediaQuery.of(context).size.width
   final double bodyWidth;
 
   // Set this value to create a parallax effect when the panel is slide up.
@@ -69,11 +69,11 @@ class WeSlide extends StatefulWidget {
   final double parallaxOffset;
 
   // Set this value to create an hide animation with footer
-  // Is recommended to set the footer height value
+  // Is recommended to set [footer] height value.
   // by default is 60.0
   final double footerOffset;
 
-  // This is the value that defines to create an overlay effect bethen body and panel.
+  // This is the value that defines opacity overlay effect bethen body and panel.
   final double overlayOpacity;
 
   // This is the value that defines Transform scale begin effect
@@ -96,9 +96,9 @@ class WeSlide extends StatefulWidget {
   // By default is true
   final bool hideFooter;
 
-  // This is the value that defines if you want to hide the collapsed [panel header].
+  // This is the value that defines if you want to hide the [panelHeader].
   // By default is true
-  final bool hideCollapsed;
+  final bool hidePanelHeader;
 
   // This is the value that defines if you want to enable paralax effect.
   // By default is false
@@ -108,9 +108,15 @@ class WeSlide extends StatefulWidget {
   // By default is false
   final bool transformScale;
 
-  // This is the value that set
+  // This is the value that create a fade transition over panel header
   final List<TweenSequenceItem<double>> fadeSequence;
+
+  // This is the value that sets the duration of the animation.
+  // By default is 300 milliseconds
   final Duration animateDuration;
+
+  // This object used to control animations, using methods like hide or show
+  // to display panel or check if is visible with variable [isOpened]
   WeSlideController controller;
 
   WeSlide({
@@ -118,7 +124,7 @@ class WeSlide extends StatefulWidget {
     this.footer,
     @required this.body,
     this.panel,
-    this.collapsed,
+    this.panelHeader,
     this.panelMinSize = 150.0,
     this.panelMaxSize = 400.0,
     this.panelWidth,
@@ -135,7 +141,7 @@ class WeSlide extends StatefulWidget {
     this.panelBackground = Colors.black,
     this.footerOffset = 60.0,
     this.hideFooter = true,
-    this.hideCollapsed = true,
+    this.hidePanelHeader = true,
     this.parallax = false,
     this.transformScale = false,
     List<TweenSequenceItem<double>> fadeSequence,
@@ -143,6 +149,7 @@ class WeSlide extends StatefulWidget {
     this.controller,
   })  : assert(body != null, 'Body could not be null'),
         assert(panelMinSize >= 0.0, 'panelMinSize cannot be negative'),
+        assert(footerOffset >= 0.0, 'footerOffset cannot be negative'),
         assert(panel != null, 'panel could not be null'),
         assert(panelMaxSize >= panelMinSize, 'panelMaxSize cannot be less than panelMinSize'),
         fadeSequence = fadeSequence ??
@@ -169,7 +176,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   Animation<double> _bodyBorderRadius;
   // Scale Animation Effect [Tween]
   Animation<double> _scaleAnimation;
-  // Collapse animation Effect [Tween]
+  // PanelHeader animation Effect [Tween]
   Animation _fadeAnimation;
 
   // Get current controller
@@ -327,23 +334,23 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
             children: <Widget>[
               /** Panel widget **/
               widget.panel ?? Container(),
-              /** collapsed widget **/
-              widget.collapsed != null && widget.hideCollapsed
+              /** Panel Header widget **/
+              widget.panelHeader != null && widget.hidePanelHeader
                   ? FadeTransition(
                       opacity: _fadeAnimation,
                       child: ValueListenableBuilder(
                         valueListenable: _effectiveController,
                         builder: (_, __, ___) {
                           return IgnorePointer(
-                            ignoring: _effectiveController.value && widget.hideCollapsed,
-                            child: widget.collapsed,
+                            ignoring: _effectiveController.value && widget.hidePanelHeader,
+                            child: widget.panelHeader,
                           );
                         },
                       ),
                     )
                   : Container(),
-              /** collapsed widget is null **/
-              widget.collapsed != null && !widget.hideCollapsed ? widget.collapsed : Container(),
+              /** panelHeader widget is null ?**/
+              widget.panelHeader != null && !widget.hidePanelHeader ? widget.panelHeader : Container(),
             ],
           ),
         ),

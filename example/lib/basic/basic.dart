@@ -30,7 +30,7 @@ class _BasicState extends State<Basic> {
           color: _colorScheme.primary,
           child: Center(child: Text("This is the panel 😊")),
         ),
-        collapsed: Container(
+        panelHeader: Container(
           height: _panelMinSize,
           color: _colorScheme.secondary,
           child: Center(child: Text("Slide to Up ☝️")),

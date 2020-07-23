@@ -7,7 +7,10 @@
 [![GitHub Stars](https://img.shields.io/github/stars/luciano-work/we_slide?logo=github)](https://github.com/luciano-work/we_slide)
 [![Platform](https://img.shields.io/badge/platform-android%20|%20ios-green.svg)](https://img.shields.io/badge/platform-Android%20%7C%20iOS-green.svg)
 
-A backdrop animated widget appears behind all other surfaces in an app, displaying contextual and actionable content.
+The inspiration behind the package was actually a need for a slide transition like spotify (iOS)
+Unfortunately, I couldn’t find any efficient package, so I literally banged my fist on the table, 
+rolled up my sleeves and created my own solution. Through this package I could better understand 
+some principles of flutter animation :)
 
 <p>
   <img width="205px" alt="Example" src="assets/demo.gif"/>
@@ -43,7 +46,7 @@ return Scaffold(
       color: _colorScheme.primary,
       child: Center(child: Text("This is the panel 😊")),
     ),
-    collapsed: Container(
+    panelHeader: Container(
       height: _panelMinSize,
       color: _colorScheme.secondary,
       child: Center(child: Text("Slide to Up ☝️")),
@@ -52,6 +55,13 @@ return Scaffold(
 );
 
 ```
+
+## Custom properties
+There are many options that you can change:
+
+|  Properties  |   Type   |   Description   |
+|--------------|----------|-----------------|
+|   'footer'   |  Widget  | This is the widget that will be below as a footer, this can be used as a [BottomNavigationBar] |
 
 <p>
   <img width="205px" alt="Example" src="assets/basic_example.gif"/>
