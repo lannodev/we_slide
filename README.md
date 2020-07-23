@@ -58,9 +58,35 @@ return Scaffold(
 ## Custom properties
 There are many options that you can change:
 
-|  Properties  |   Type   |   Description   |
-|--------------|----------|-----------------|
-|   `footer`   |  Widget  | This is the widget that will be below as a footer, this can be used as a `BottomNavigationBar` |
+|  Properties               |   Type   |   Description   |
+|---------------------------|----------|-----------------|
+|`footer`                   | `widget` | This is the widget that will be below as a footer, this can be used as a `BottomNavigationBar` |
+|`body`                     | `widget` |                 |
+|`panel`                    | `widget` |                 |
+|`panelHeader`              | `widget` |                 |
+|`panelMinSize`             | `double` |                 |
+|`panelMaxSize`             | `double` |                 |
+|`panelWidth`               | `double` |                 |
+|`panelBorderRadiusBegin`   | `double` |                 |
+|`panelBorderRadiusEnd`     | `double` |                 |
+|`bodyBorderRadiusBegin`    | `double` |                 |
+|`bodyBorderRadiusEnd`      | `double` |                 |
+|`bodyWidth`                | `double` |                 |
+|`parallaxOffset`           | `double` |                 |
+|`footerOffset`             | `double` |                 |
+|`overlayOpacity`           | `double` |                 |
+|`transformScaleBegin`      | `double` |                 |
+|`transformScaleEnd`        | `double` |                 |
+|`overlayColor`             | `color`  |                 |
+|`panelBackground`          | `color`  |                 |
+|`hideFooter`               | `bool`   |                 |
+|`hidePanelHeader`          | `bool`   |                 |
+|`parallax`                 | `bool`   |                 |
+|`transformScale`           | `bool`   |                 |
+|`animateDuration`          | `bool`   |                 |
+|`transformScale`           |`Duration`|                 |
+|`controller`               |`WeSlideController`|                 |
+|`fadeSequence`             | `List<TweenSequenceItem<double>> `   |                 |
 
 <p>
   <img width="205px" alt="Example" src="assets/basic_example.gif"/>
