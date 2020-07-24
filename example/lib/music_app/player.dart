@@ -51,9 +51,6 @@ class _PlayerState extends State<Player> {
                                 children: <Widget>[
                                   IconButton(
                                     onPressed: widget.onTap,
-                                    // onPressed: () {
-                                    //   Navigator.of(context).pop();
-                                    // },
                                     iconSize: 32,
                                     icon: Icon(
                                       Icons.arrow_drop_down,

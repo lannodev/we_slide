@@ -134,7 +134,7 @@ class WeSlide extends StatefulWidget {
     this.bodyBorderRadiusEnd = 0.0,
     this.bodyWidth,
     this.transformScaleBegin = 1.0,
-    this.transformScaleEnd = 0.9,
+    this.transformScaleEnd = 0.85,
     this.parallaxOffset = 0.1,
     this.overlayOpacity = 0.0,
     this.overlayColor = Colors.black,

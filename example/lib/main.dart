@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'basic/basic.dart';
 import 'music_app/music_app.dart';
+import 'store_app/store_app.dart';
 import 'theme.dart';
 
 void main() {
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //home: Basic(),
       //home: Complex(),
-      home: MusicApp(),
+      //home: MusicApp(),
+      home: StoreApp(),
     );
   }
 }
