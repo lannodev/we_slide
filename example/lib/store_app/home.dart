@@ -46,36 +46,33 @@ class Home extends StatelessWidget {
                     physics: BouncingScrollPhysics(),
                     children: <Widget>[
                       CustomCard(
-                        title: "Shoe",
-                        image: "https://static.netshoes.com.br/produtos/tenis-olympikus-blend-masculino/88/D22-2924-788/D22-2924-788_zoom1.jpg?ts=1571164115&ims=544x",
+                        title: "Tênis Nike Air Max 97",
+                        image: "assets/thumb/store_tenis1.png",
                         ontap: onTap,
                       ),
                       CustomCard(
-                        title: "Earpod",
-                        image:
-                            "https://static.netshoes.com.br/produtos/fone-de-ouvido-wireless-i9s-tws-bluetooth-50-para-iphone-e-android/14/QWT-0070-014/QWT-0070-014_zoom1.jpg?ts=1595246302&ims=326x",
+                        title: "Tênis Nike AF1",
+                        image: "assets/thumb/store_tenis2.png",
                         ontap: () {},
                       ),
                       CustomCard(
-                        title: "Bicicle",
-                        image:
-                            "https://static.netshoes.com.br/produtos/bicicleta-aro-29-ksw-xlt-21v-cambios-shimano-freio-a-disco-mecanico-com-suspensao/72/CGY-0004-172/CGY-0004-172_zoom2.jpg?ts=1560959122&ims=326x",
+                        title: "Tênis Nike Pegasus Turbo",
+                        image: "assets/thumb/store_tenis3.png",
                         ontap: () {},
                       ),
                       CustomCard(
-                        title: "Whey",
-                        image: "https://static.netshoes.com.br/produtos/whey-protein-100-pure-whey-900g-probiotica/99/168-9257-799/168-9257-799_zoom1.jpg?ts=1594049491&ims=326x",
+                        title: "Tênis Nike Revolution 5",
+                        image: "assets/thumb/store_tenis4.png",
                         ontap: () {},
                       ),
                       CustomCard(
-                        title: "Nike Shoe",
-                        image: "https://static.netshoes.com.br/produtos/tenis-nike-revolution-5-masculino/36/HZM-1731-036/HZM-1731-036_detalhe1.jpg?ts=1569489111?ims=280x280",
+                        title: "Nike Air Vapormax ",
+                        image: "assets/thumb/store_tenis5.png",
                         ontap: () {},
                       ),
                       CustomCard(
-                        title: "Kegel Exercises",
-                        image:
-                            "https://static.netshoes.com.br/produtos/kit-bota-casual-e-sapatenis-sapatofran-relogio-e-carteira-masculino/56/HAP-0393-256/HAP-0393-256_zoom2.jpg?ts=1582034302&ims=326x",
+                        title: "Tênis Nike Renew Run",
+                        image: "assets/thumb/store_tenis6.png",
                         ontap: () {},
                       ),
                     ],

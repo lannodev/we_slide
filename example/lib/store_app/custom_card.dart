@@ -13,12 +13,13 @@ class CustomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorTheme = Theme.of(context).colorScheme;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(13),
+      borderRadius: BorderRadius.circular(12),
       child: Container(
         // padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: colorTheme.surface,
           borderRadius: BorderRadius.circular(13),
           boxShadow: [
             BoxShadow(
@@ -38,13 +39,17 @@ class CustomCard extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Spacer(),
-                  //Image.asset(image),
-                  Image.network(image),
+                  Image.asset(
+                    image,
+                    height: 100.0,
+                    width: 100.0,
+                  ),
+                  //Image.network(image),
                   Spacer(),
                   Text(
                     title,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 15),
+                    style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 15, color: colorTheme.onPrimary),
                   )
                 ],
               ),

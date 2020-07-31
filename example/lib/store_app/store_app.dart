@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:we_slide/we_slide.dart';
 import 'home.dart';
+import 'bottom_bar.dart';
 
 class StoreApp extends StatefulWidget {
   StoreApp({Key key}) : super(key: key);
@@ -31,7 +32,7 @@ class _StoreAppState extends State<StoreApp> {
           onTap: _controller.show,
         ),
         panel: Container(color: Colors.amber, height: _size.height),
-        footer: Container(color: Colors.red, height: 70.0),
+        footer: BottomBar(),
       ),
     );
   }
