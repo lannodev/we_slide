@@ -55,6 +55,8 @@ return Scaffold(
 );
 
 ```
+## Others Examples
+Change propertie home to `MusicApp()` or `StoreApp` inside main.dart to see more examples 😊
 
 ## Custom properties
 There are many options that you can change:
@@ -88,3 +90,8 @@ There are many options that you can change:
 |`controller`|`WeSlideController`|This object used to control animations, using methods like `hide` or `show` to display panel or check if is visible with variable `isOpened`|
 |`fadeSequence`|`List<TweenSequenceItem<double>>`|This is the value that create a `fade transition` over `panel header`|
 
+## Features and bugs
+
+Please file feature requests and bugs at the [issue tracker][tracker].
+
+[tracker]: https://github.com/luciano-work/we_slide/issues
