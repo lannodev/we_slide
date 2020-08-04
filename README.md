@@ -12,8 +12,8 @@ rolled up my sleeves and created my own solution. Through this package I could b
 some principles of flutter animation :)
 
 <p>
-  <img width="320px" alt="Music App" src="assets/music_app.gif"/>
-  <img width="320px" alt="Store App" src="assets/store_app.gif"/>
+  <img width="320px" alt="Music App" src="https://github.com/luciano-work/we_slide/raw/master/assets/music_app.gif"/>
+  <img width="320px" alt="Store App" src="https://github.com/luciano-work/we_slide/raw/master/assets/store_app.gif"/>
 </p>
 
 ## Installation
