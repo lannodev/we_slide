@@ -1,6 +1,6 @@
 name: we_slide
 description: A backdrop animated widget =]
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/luciano-work/we_slide
 
 environment:
@@ -14,7 +14,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   # linter Rules
-  effective_dart: ^1.2.3
+  #effective_dart: ^1.2.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
