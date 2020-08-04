@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:we_slide/we_slide.dart';
 import 'weslide_controller.dart';
@@ -283,7 +285,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
             );
           },
           child: Container(
-            height: _height - widget.panelMinSize,
+            height: _height - max(widget.panelMinSize, widget.footerOffset),
             width: widget.bodyWidth ?? _width,
             child: widget.body,
           ),

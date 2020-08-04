@@ -75,19 +75,6 @@ class _HomeState extends State<Home> {
       width: size.width,
       height: size.height,
       color: colorTheme.background,
-      // decoration: BoxDecoration(
-      //   gradient: LinearGradient(
-      //     colors: [
-      //       Color(0xFF404040),
-      //       colorTheme.background,
-      //       colorTheme.background,
-      //       colorTheme.background,
-      //       colorTheme.background,
-      //     ],
-      //     begin: Alignment(-0.4, -1.2),
-      //     end: Alignment.bottomCenter,
-      //   ),
-      // ),
       child: Stack(
         children: [
           ValueListenableBuilder(

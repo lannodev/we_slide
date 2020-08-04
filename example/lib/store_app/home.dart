@@ -53,22 +53,22 @@ class Home extends StatelessWidget {
                       CustomCard(
                         title: "Tênis Nike AF1",
                         image: "assets/thumb/store_tenis2.png",
-                        ontap: () {},
+                        ontap: onTap,
                       ),
                       CustomCard(
                         title: "Tênis Nike Pegasus Turbo",
                         image: "assets/thumb/store_tenis3.png",
-                        ontap: () {},
+                        ontap: onTap,
                       ),
                       CustomCard(
                         title: "Tênis Nike Revolution 5",
                         image: "assets/thumb/store_tenis4.png",
-                        ontap: () {},
+                        ontap: onTap,
                       ),
                       CustomCard(
                         title: "Nike Air Vapormax ",
                         image: "assets/thumb/store_tenis5.png",
-                        ontap: () {},
+                        ontap: onTap,
                       ),
                       CustomCard(
                         title: "Tênis Nike Renew Run",
@@ -78,6 +78,7 @@ class Home extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(height: 20.0)
               ],
             ),
           ),

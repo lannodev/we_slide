@@ -12,7 +12,8 @@ rolled up my sleeves and created my own solution. Through this package I could b
 some principles of flutter animation :)
 
 <p>
-  <img width="320px" alt="Example" src="assets/music_app.gif"/>
+  <img width="320px" alt="Music App" src="assets/music_app.gif"/>
+  <img width="320px" alt="Store App" src="assets/store_app.gif"/>
 </p>
 
 ## Installation
@@ -86,8 +87,4 @@ There are many options that you can change:
 |`animateDuration`|`bool`|This is the value that sets the duration of the `animation`. By default is `300 milliseconds`|
 |`controller`|`WeSlideController`|This object used to control animations, using methods like `hide` or `show` to display panel or check if is visible with variable `isOpened`|
 |`fadeSequence`|`List<TweenSequenceItem<double>>`|This is the value that create a `fade transition` over `panel header`|
-
-<p>
-  <img width="205px" alt="Example" src="assets/basic_example.gif"/>
-</p>
 

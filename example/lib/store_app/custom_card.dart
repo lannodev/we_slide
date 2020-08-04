@@ -39,16 +39,13 @@ class CustomCard extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Spacer(),
-                  Image.asset(
-                    image,
-                    height: 100.0,
-                    width: 100.0,
-                  ),
+                  Image.asset(image),
                   //Image.network(image),
                   Spacer(),
                   Text(
                     title,
                     textAlign: TextAlign.center,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 15, color: colorTheme.onPrimary),
                   )
                 ],
