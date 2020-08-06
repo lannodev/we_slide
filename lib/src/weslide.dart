@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-//import 'package:we_slide/we_slide.dart';
 import 'weslide_controller.dart';
 
 /// A backdrop widget that displaying contextual and actionable content. =]
