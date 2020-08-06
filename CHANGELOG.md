@@ -1,4 +1,8 @@
-## [1.0.1] - First Release
+## [1.0.2] - Change README
+
+* Change documentation
+
+## [1.0.1] - Change README
 
 * Change README file images
 

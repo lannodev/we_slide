@@ -1,126 +1,129 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:we_slide/we_slide.dart';
+//import 'package:we_slide/we_slide.dart';
 import 'weslide_controller.dart';
 
+/// A backdrop widget that displaying contextual and actionable content. =]
 // ignore: must_be_immutable
 class WeSlide extends StatefulWidget {
-  // This is the widget that will be below as a footer,
-  // this can be used as a [BottomNavigationBar]
+  /// This is the widget that will be below as a footer,
+  /// this can be used as a [BottomNavigationBar]
   final Widget footer;
 
-  // This is the widget that will be hided with [Panel].
-  // You can fit any widget. This parameter is required
+  /// This is the widget that will be hided with [Panel].
+  /// You can fit any widget. This parameter is required
   final Widget body;
 
-  // This is the widget that will slide over the [Body].
-  // You can fit any widget.
+  /// This is the widget that will slide over the [Body].
+  /// You can fit any widget.
   final Widget panel;
 
-  // This is the header that will be over the [Panel].
-  // You can fit any widget.
+  /// This is the header that will be over the [Panel].
+  /// You can fit any widget.
   final Widget panelHeader;
 
-  // This is the initial value that set the panel min height.
-  // If the value is greater than 0, panel will be this size over [body]
-  // By default is [150.0]. Set [0.0] if you want to hide [Panel]
+  /// This is the initial value that set the panel min height.
+  /// If the value is greater than 0, panel will be this size over [body]
+  /// By default is [150.0]. Set [0.0] if you want to hide [Panel]
   final double panelMinSize;
 
-  // This is the value that set the panel max height.
-  // When slide up the panel this value define the max height
-  // that panel will be over [Body]. By default is [400.0]
-  // if you want that panel cover the whole [Body], set with
-  // MediaQuery.of(context).size.height
+  /// This is the value that set the panel max height.
+  /// When slide up the panel this value define the max height
+  /// that panel will be over [Body]. By default is [400.0]
+  /// if you want that panel cover the whole [Body], set with
+  /// MediaQuery.of(context).size.height
   final double panelMaxSize;
 
-  // This is the value that set the panel width
-  // by default is MediaQuery.of(context).size.width
+  /// This is the value that set the panel width
+  /// by default is MediaQuery.of(context).size.width
   final double panelWidth;
 
-  // Set this value to create a border radius over Panel.
-  // When panelBorderRadiusBegin is diffrent from panelBorderRadiusEnd
-  // and the panel is slide up, this create an animation border over panel
-  // By default is 0.0
+  /// Set this value to create a border radius over Panel.
+  /// When panelBorderRadiusBegin is diffrent from panelBorderRadiusEnd
+  /// and the panel is slide up, this create an animation border over panel
+  /// By default is 0.0
   final double panelBorderRadiusBegin;
 
-  // Set this value to create a border radius over Panel.
-  // When panelBorderRadiusBegin is diffrent from panelBorderRadiusEnd
-  // and the panel is slide up, this create an animation border over panel
-  // By default is 0.0
+  /// Set this value to create a border radius over Panel.
+  /// When panelBorderRadiusBegin is diffrent from panelBorderRadiusEnd
+  /// and the panel is slide up, this create an animation border over panel
+  /// By default is 0.0
   final double panelBorderRadiusEnd;
 
-  // Set this value to create a border radius over Body.
-  // When bodyBorderRadiusBegin is diffrent from bodyBorderRadiusEnd
-  // and the panel is slide up, this create an animation border over body
-  // By default is 0.0
+  /// Set this value to create a border radius over Body.
+  /// When bodyBorderRadiusBegin is diffrent from bodyBorderRadiusEnd
+  /// and the panel is slide up, this create an animation border over body
+  /// By default is 0.0
   final double bodyBorderRadiusBegin;
 
-  // Set this value to create a border radius over Body.
-  // When bodyBorderRadiusBegin is diffrent from bodyBorderRadiusEnd
-  // and the panel is slide up, this create an animation border over body.
-  // By default is 0.0
+  /// Set this value to create a border radius over Body.
+  /// When bodyBorderRadiusBegin is diffrent from bodyBorderRadiusEnd
+  /// and the panel is slide up, this create an animation border over body.
+  /// By default is 0.0
   final double bodyBorderRadiusEnd;
 
-  // This is the value that set the body width.
-  // By default is MediaQuery.of(context).size.width
+  /// This is the value that set the body width.
+  /// By default is MediaQuery.of(context).size.width
   final double bodyWidth;
 
-  // Set this value to create a parallax effect when the panel is slide up.
-  // By default is 0.1
+  /// Set this value to create a parallax effect when the panel is slide up.
+  /// By default is 0.1
   final double parallaxOffset;
 
-  // Set this value to create an hide animation with footer
-  // Is recommended to set [footer] height value.
-  // by default is 60.0
+  /// Set this value to create an hide animation with footer
+  /// Is recommended to set [footer] height value.
+  /// by default is 60.0
   final double footerOffset;
 
-  // This is the value that defines opacity overlay effect bethen body and panel.
+  /// This is the value that defines opacity
+  /// overlay effect bethen body and panel.
   final double overlayOpacity;
 
-  // This is the value that defines Transform scale begin effect
-  // By default is 1.0
+  /// This is the value that defines Transform scale begin effect
+  /// By default is 1.0
   final double transformScaleBegin;
 
-  // This is the value that defines Transform scale end effect
-  // by default is 0.9
+  /// This is the value that defines Transform scale end effect
+  /// by default is 0.9
   final double transformScaleEnd;
 
-  // This is the value that defines overlay color effect.
-  // By default is Colors.black
+  /// This is the value that defines overlay color effect.
+  /// By default is Colors.black
   final Color overlayColor;
 
-  // This is the value that defines background color panel.
-  // By default is Colors.black
+  /// This is the value that defines background color panel.
+  /// By default is Colors.black
   final Color panelBackground;
 
-  // This is the value that defines if you want to hide the footer.
-  // By default is true
+  /// This is the value that defines if you want to hide the footer.
+  /// By default is true
   final bool hideFooter;
 
-  // This is the value that defines if you want to hide the [panelHeader].
-  // By default is true
+  /// This is the value that defines if you want to hide the [panelHeader].
+  /// By default is true
   final bool hidePanelHeader;
 
-  // This is the value that defines if you want to enable paralax effect.
-  // By default is false
+  /// This is the value that defines if you want to enable paralax effect.
+  /// By default is false
   final bool parallax;
 
-  // This is the value that defines if you want to enable transform scale effect.
-  // By default is false
+  /// This is the value that defines if you want
+  /// to enable transform scale effect. By default is false
   final bool transformScale;
 
-  // This is the value that create a fade transition over panel header
+  /// This is the value that create a fade transition over panel header
   final List<TweenSequenceItem<double>> fadeSequence;
 
-  // This is the value that sets the duration of the animation.
-  // By default is 300 milliseconds
+  /// This is the value that sets the duration of the animation.
+  /// By default is 300 milliseconds
   final Duration animateDuration;
 
-  // This object used to control animations, using methods like hide or show
-  // to display panel or check if is visible with variable [isOpened]
+  /// This object used to control animations, using methods like hide or show
+  /// to display panel or check if is visible with variable [isOpened]
   WeSlideController controller;
 
+  /// Weslide Contructor
   WeSlide({
     Key key,
     this.footer,
@@ -153,14 +156,18 @@ class WeSlide extends StatefulWidget {
         assert(panelMinSize >= 0.0, 'panelMinSize cannot be negative'),
         assert(footerOffset >= 0.0, 'footerOffset cannot be negative'),
         assert(panel != null, 'panel could not be null'),
+        // ignore: lines_longer_than_80_chars
         assert(panelMaxSize >= panelMinSize, 'panelMaxSize cannot be less than panelMinSize'),
         fadeSequence = fadeSequence ??
             [
+              // ignore: lines_longer_than_80_chars
               TweenSequenceItem<double>(weight: 1.0, tween: Tween(begin: 1, end: 0)),
+              // ignore: lines_longer_than_80_chars
               TweenSequenceItem<double>(weight: 8.0, tween: Tween(begin: 0, end: 0)),
             ],
         super(key: key) {
     if (controller == null) {
+      // ignore: unnecessary_this
       this.controller = WeSlideController();
     }
   }
@@ -185,6 +192,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   WeSlideController get _effectiveController => widget.controller;
 
   // Check if panel is visible
+  // ignore: lines_longer_than_80_chars
   bool get _ispanelVisible => _ac.status == AnimationStatus.completed || _ac.status == AnimationStatus.forward;
 
   @override
@@ -194,10 +202,13 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     // Animation controller;
     _ac = AnimationController(vsync: this, duration: widget.animateDuration);
     // panel Border radius animation
+    // ignore: lines_longer_than_80_chars
     _panelborderRadius = Tween<double>(begin: widget.panelBorderRadiusBegin, end: widget.panelBorderRadiusEnd).animate(_ac);
     // body border radius animation
+    // ignore: lines_longer_than_80_chars
     _bodyBorderRadius = Tween<double>(begin: widget.bodyBorderRadiusBegin, end: widget.bodyBorderRadiusEnd).animate(_ac);
     // Transform scale animation
+    // ignore: lines_longer_than_80_chars
     _scaleAnimation = Tween<double>(begin: widget.transformScaleBegin, end: widget.transformScaleEnd).animate(_ac);
     // Fade Animation sequence
     _fadeAnimation = TweenSequence(widget.fadeSequence).animate(_ac);
@@ -213,30 +224,31 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     widget.controller?.addListener(_animatedPanel);
   }
 
-  // Animate the panel [ValueNotifier]
+  /// Animate the panel [ValueNotifier]
   void _animatedPanel() {
     if (_effectiveController.value != _ispanelVisible) {
       _ac.fling(velocity: _ispanelVisible ? -2.0 : 2.0);
     }
   }
 
-  // Dispose
+  /// Dispose
   @override
   void dispose() {
-    //Animation Controller
+    ///Animation Controller
     _ac.dispose();
-    // ValueNotifier
+
+    /// ValueNotifier
     _effectiveController?.dispose();
     super.dispose();
   }
 
-  // Gesture Vertical Update [GestureDetector]
+  /// Gesture Vertical Update [GestureDetector]
   void _handleVerticalUpdate(DragUpdateDetails updateDetails) {
     var fractionDragged = updateDetails.primaryDelta / widget.panelMaxSize;
     _ac.value -= 1.5 * fractionDragged;
   }
 
-  // Gesture Vertical End [GestureDetector]
+  /// Gesture Vertical End [GestureDetector]
   void _handleVerticalEnd(DragEndDetails endDetails) {
     if (_ac.value >= 0.5) {
       _ac.forward().then((x) {
@@ -250,17 +262,21 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   }
 
   // Get Body Animation [Paralax]
+  // ignore: lines_longer_than_80_chars
   Animation<Offset> _getAnimationOffSet({@required double minSize, @required double maxSize}) {
+    // ignore: lines_longer_than_80_chars
     final _closedPercentage = (widget.panelMaxSize - minSize) / widget.panelMaxSize;
+    // ignore: lines_longer_than_80_chars
     final _openPercentage = (widget.panelMaxSize - maxSize) / widget.panelMaxSize;
+    // ignore: lines_longer_than_80_chars
     return Tween<Offset>(begin: Offset(0.0, _closedPercentage), end: Offset(0.0, _openPercentage)).animate(_ac);
   }
 
   @override
   Widget build(BuildContext context) {
     //Get MediaQuery Sizes
-    double _height = MediaQuery.of(context).size.height;
-    double _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
 
     return Stack(
       alignment: Alignment.bottomCenter,
@@ -270,6 +286,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           animation: _ac,
           builder: (context, child) {
             return Positioned(
+              // ignore: lines_longer_than_80_chars
               top: widget.parallax ? (_ac.value * (widget.panelMaxSize - widget.panelMinSize) * -widget.parallaxOffset) : 0.0,
               child: Transform.scale(
                 scale: widget.transformScale ? _scaleAnimation.value : 1.0,
@@ -295,6 +312,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           animation: _ac,
           builder: (context, _) {
             return Container(
+              // ignore: lines_longer_than_80_chars
               color: _ac.value == 0.0 ? null : widget.overlayColor.withOpacity(widget.overlayOpacity * _ac.value),
             );
           },
@@ -313,6 +331,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           animation: _ac,
           builder: (_, child) {
             return SlideTransition(
+              // ignore: lines_longer_than_80_chars
               position: _getAnimationOffSet(maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
               child: GestureDetector(
                 onVerticalDragUpdate: _handleVerticalUpdate,
@@ -344,6 +363,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                         valueListenable: _effectiveController,
                         builder: (_, __, ___) {
                           return IgnorePointer(
+                            // ignore: lines_longer_than_80_chars
                             ignoring: _effectiveController.value && widget.hidePanelHeader,
                             child: widget.panelHeader,
                           );
@@ -352,6 +372,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                     )
                   : Container(),
               /** panelHeader widget is null ?**/
+              // ignore: lines_longer_than_80_chars
               widget.panelHeader != null && !widget.hidePanelHeader ? widget.panelHeader : Container(),
             ],
           ),
@@ -362,6 +383,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                 animation: _ac,
                 builder: (context, child) {
                   return Positioned(
+                    // ignore: lines_longer_than_80_chars
                     bottom: widget.hideFooter ? _ac.value * -widget.footerOffset : 0.0,
                     width: MediaQuery.of(context).size.width,
                     child: widget.footer,

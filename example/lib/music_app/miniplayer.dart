@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'player.dart';
-
 class MiniPlayer extends StatefulWidget {
   MiniPlayer({Key key, this.onTap}) : super(key: key);
   final Function onTap;
