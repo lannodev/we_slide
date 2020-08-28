@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'weslide_controller.dart';
@@ -79,6 +80,10 @@ class WeSlide extends StatefulWidget {
   /// overlay effect bethen body and panel.
   final double overlayOpacity;
 
+  /// This is the value that creates an image filter
+  /// that applies a Gaussian blur.
+  final double blurSigma;
+
   /// This is the value that defines Transform scale begin effect
   /// By default is 1.0
   final double transformScaleBegin;
@@ -90,6 +95,10 @@ class WeSlide extends StatefulWidget {
   /// This is the value that defines overlay color effect.
   /// By default is Colors.black
   final Color overlayColor;
+
+  /// This is the value that defines blur color effect.
+  /// By default is Colors.black
+  final Color blurColor;
 
   /// This is the value that defines background color panel.
   /// By default is Colors.black
@@ -110,6 +119,14 @@ class WeSlide extends StatefulWidget {
   /// This is the value that defines if you want
   /// to enable transform scale effect. By default is false
   final bool transformScale;
+
+  /// This is the value that defines if you want
+  /// to enable overlay effect. By default is false
+  final bool overlay;
+
+  /// This is the value that defines if you want
+  /// to enable Gaussian blur effect. By default is false
+  final bool blur;
 
   /// This is the value that create a fade transition over panel header
   final List<TweenSequenceItem<double>> fadeSequence;
@@ -141,13 +158,17 @@ class WeSlide extends StatefulWidget {
     this.transformScaleEnd = 0.85,
     this.parallaxOffset = 0.1,
     this.overlayOpacity = 0.0,
+    this.blurSigma = 5.0,
     this.overlayColor = Colors.black,
+    this.blurColor = Colors.black,
     this.panelBackground = Colors.black,
     this.footerOffset = 60.0,
     this.hideFooter = true,
     this.hidePanelHeader = true,
     this.parallax = false,
     this.transformScale = false,
+    this.overlay = false,
+    this.blur = false,
     List<TweenSequenceItem<double>> fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
     this.controller,
@@ -156,13 +177,16 @@ class WeSlide extends StatefulWidget {
         assert(footerOffset >= 0.0, 'footerOffset cannot be negative'),
         assert(panel != null, 'panel could not be null'),
         // ignore: lines_longer_than_80_chars
-        assert(panelMaxSize >= panelMinSize, 'panelMaxSize cannot be less than panelMinSize'),
+        assert(panelMaxSize >= panelMinSize,
+            'panelMaxSize cannot be less than panelMinSize'),
         fadeSequence = fadeSequence ??
             [
               // ignore: lines_longer_than_80_chars
-              TweenSequenceItem<double>(weight: 1.0, tween: Tween(begin: 1, end: 0)),
+              TweenSequenceItem<double>(
+                  weight: 1.0, tween: Tween(begin: 1, end: 0)),
               // ignore: lines_longer_than_80_chars
-              TweenSequenceItem<double>(weight: 8.0, tween: Tween(begin: 0, end: 0)),
+              TweenSequenceItem<double>(
+                  weight: 8.0, tween: Tween(begin: 0, end: 0)),
             ],
         super(key: key) {
     if (controller == null) {
@@ -192,7 +216,9 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
 
   // Check if panel is visible
   // ignore: lines_longer_than_80_chars
-  bool get _ispanelVisible => _ac.status == AnimationStatus.completed || _ac.status == AnimationStatus.forward;
+  bool get _ispanelVisible =>
+      _ac.status == AnimationStatus.completed ||
+      _ac.status == AnimationStatus.forward;
 
   @override
   void initState() {
@@ -202,13 +228,21 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     _ac = AnimationController(vsync: this, duration: widget.animateDuration);
     // panel Border radius animation
     // ignore: lines_longer_than_80_chars
-    _panelborderRadius = Tween<double>(begin: widget.panelBorderRadiusBegin, end: widget.panelBorderRadiusEnd).animate(_ac);
+    _panelborderRadius = Tween<double>(
+            begin: widget.panelBorderRadiusBegin,
+            end: widget.panelBorderRadiusEnd)
+        .animate(_ac);
     // body border radius animation
     // ignore: lines_longer_than_80_chars
-    _bodyBorderRadius = Tween<double>(begin: widget.bodyBorderRadiusBegin, end: widget.bodyBorderRadiusEnd).animate(_ac);
+    _bodyBorderRadius = Tween<double>(
+            begin: widget.bodyBorderRadiusBegin,
+            end: widget.bodyBorderRadiusEnd)
+        .animate(_ac);
     // Transform scale animation
     // ignore: lines_longer_than_80_chars
-    _scaleAnimation = Tween<double>(begin: widget.transformScaleBegin, end: widget.transformScaleEnd).animate(_ac);
+    _scaleAnimation = Tween<double>(
+            begin: widget.transformScaleBegin, end: widget.transformScaleEnd)
+        .animate(_ac);
     // Fade Animation sequence
     _fadeAnimation = TweenSequence(widget.fadeSequence).animate(_ac);
     // Super Init State
@@ -262,13 +296,19 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
 
   // Get Body Animation [Paralax]
   // ignore: lines_longer_than_80_chars
-  Animation<Offset> _getAnimationOffSet({@required double minSize, @required double maxSize}) {
+  Animation<Offset> _getAnimationOffSet(
+      {@required double minSize, @required double maxSize}) {
     // ignore: lines_longer_than_80_chars
-    final _closedPercentage = (widget.panelMaxSize - minSize) / widget.panelMaxSize;
+    final _closedPercentage =
+        (widget.panelMaxSize - minSize) / widget.panelMaxSize;
     // ignore: lines_longer_than_80_chars
-    final _openPercentage = (widget.panelMaxSize - maxSize) / widget.panelMaxSize;
+    final _openPercentage =
+        (widget.panelMaxSize - maxSize) / widget.panelMaxSize;
     // ignore: lines_longer_than_80_chars
-    return Tween<Offset>(begin: Offset(0.0, _closedPercentage), end: Offset(0.0, _openPercentage)).animate(_ac);
+    return Tween<Offset>(
+            begin: Offset(0.0, _closedPercentage),
+            end: Offset(0.0, _openPercentage))
+        .animate(_ac);
   }
 
   @override
@@ -286,7 +326,11 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           builder: (context, child) {
             return Positioned(
               // ignore: lines_longer_than_80_chars
-              top: widget.parallax ? (_ac.value * (widget.panelMaxSize - widget.panelMinSize) * -widget.parallaxOffset) : 0.0,
+              top: widget.parallax
+                  ? (_ac.value *
+                      (widget.panelMaxSize - widget.panelMinSize) *
+                      -widget.parallaxOffset)
+                  : 0.0,
               child: Transform.scale(
                 scale: widget.transformScale ? _scaleAnimation.value : 1.0,
                 alignment: Alignment.bottomCenter,
@@ -306,16 +350,37 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
             child: widget.body,
           ),
         ),
-        /** Overlay Effect **/
-        AnimatedBuilder(
-          animation: _ac,
-          builder: (context, _) {
-            return Container(
-              // ignore: lines_longer_than_80_chars
-              color: _ac.value == 0.0 ? null : widget.overlayColor.withOpacity(widget.overlayOpacity * _ac.value),
-            );
-          },
-        ),
+        /** Enable Blur Effect **/
+        if (widget.blur && !widget.overlay)
+          AnimatedBuilder(
+            animation: _ac,
+            builder: (context, _) {
+              return BackdropFilter(
+                // ignore: lines_longer_than_80_chars
+                filter: ImageFilter.blur(
+                    sigmaX: widget.blurSigma * _ac.value,
+                    sigmaY: widget.blurSigma * _ac.value),
+                child: Container(
+                  color: widget.blurColor.withOpacity(0.1),
+                ),
+              );
+            },
+          ),
+
+        /** Enable Overlay Effect **/
+        if (!widget.blur && widget.overlay)
+          AnimatedBuilder(
+            animation: _ac,
+            builder: (context, _) {
+              return Container(
+                // ignore: lines_longer_than_80_chars
+                color: _ac.value == 0.0
+                    ? null
+                    : widget.overlayColor
+                        .withOpacity(widget.overlayOpacity * _ac.value),
+              );
+            },
+          ),
         /* Fill with background color behind panel border radius */
         Positioned(
           bottom: 0.0,
@@ -331,7 +396,8 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
           builder: (_, child) {
             return SlideTransition(
               // ignore: lines_longer_than_80_chars
-              position: _getAnimationOffSet(maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
+              position: _getAnimationOffSet(
+                  maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
               child: GestureDetector(
                 onVerticalDragUpdate: _handleVerticalUpdate,
                 onVerticalDragEnd: _handleVerticalEnd,
@@ -363,7 +429,8 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                         builder: (_, __, ___) {
                           return IgnorePointer(
                             // ignore: lines_longer_than_80_chars
-                            ignoring: _effectiveController.value && widget.hidePanelHeader,
+                            ignoring: _effectiveController.value &&
+                                widget.hidePanelHeader,
                             child: widget.panelHeader,
                           );
                         },
@@ -372,7 +439,9 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                   : Container(),
               /** panelHeader widget is null ?**/
               // ignore: lines_longer_than_80_chars
-              widget.panelHeader != null && !widget.hidePanelHeader ? widget.panelHeader : Container(),
+              widget.panelHeader != null && !widget.hidePanelHeader
+                  ? widget.panelHeader
+                  : Container(),
             ],
           ),
         ),
@@ -383,7 +452,9 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                 builder: (context, child) {
                   return Positioned(
                     // ignore: lines_longer_than_80_chars
-                    bottom: widget.hideFooter ? _ac.value * -widget.footerOffset : 0.0,
+                    bottom: widget.hideFooter
+                        ? _ac.value * -widget.footerOffset
+                        : 0.0,
                     width: MediaQuery.of(context).size.width,
                     child: widget.footer,
                   );

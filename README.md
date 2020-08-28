@@ -21,7 +21,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  we_slide: ^1.0.2
+  we_slide: ^1.0.3
 ```
 
 ## Basic Example
@@ -77,14 +77,18 @@ There are many options that you can change:
 |`parallaxOffset`|`double`|Set this value to create a `parallax` effect when the `panel` is slide up. By default is `0.1`|
 |`footerOffset`|`double`|Set this value to create an hide animation with footer. Is recommended to set `footer` height value. By default is `60.0`|
 |`overlayOpacity`|`double`|This is the value that defines opacity overlay effect bethen `body` and `panel`.|
+|`blurSigma`|`double`|This is the value that creates an image filter that applies a Gaussian blur.|
 |`transformScaleBegin`|`double`|This is the value that defines `transform scale` begin effect. By default is `1.0`|
 |`transformScaleEnd`|`double`|This is the value that defines `transform scale` end effect. By default is `0.9`|
 |`overlayColor`|`color`|This is the value that defines overlay color effect. By default is `Colors.black`|
+|`blurColor`|`color`|This is the value that defines blur color effect. By default is `Colors.black`|
 |`panelBackground`|`color`|This is the value that defines background color `panel`. By default is `Colors.black`|
 |`hideFooter`|`bool`|This is the value that defines if you want to hide the `footer`. By default is `true`|
 |`hidePanelHeader`|`bool`|This is the value that defines if you want to hide the `panelHeader`. By default is `true`|
 |`parallax`|`bool`|This is the value that defines if you want to enable `paralax` effect. By default is `false`|
 |`transformScale`|`bool`|This is the value that defines if you want to enable `transform scale` effect. By default is `false`|
+|`overlay`|`bool`|This is the value that defines if you want to enable `overlay effect`. By default is `false`|
+|`blur`|`bool`|This is the value that defines if you want to enable `Gaussian blur effect`. By default is `false`|
 |`animateDuration`|`bool`|This is the value that sets the duration of the `animation`. By default is `300 milliseconds`|
 |`controller`|`WeSlideController`|This object used to control animations, using methods like `hide` or `show` to display panel or check if is visible with variable `isOpened`|
 |`fadeSequence`|`List<TweenSequenceItem<double>>`|This is the value that create a `fade transition` over `panel header`|
