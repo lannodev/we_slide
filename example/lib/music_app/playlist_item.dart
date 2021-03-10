@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'playlist_type.dart';
 
 class PlaylistItem extends StatefulWidget {
-  PlaylistItem({Key key, this.playlist, this.small = false}) : super(key: key);
+  PlaylistItem({Key? key, required this.playlist, this.small = false})
+      : super(key: key);
 
   final Playlist playlist;
   final bool small;
@@ -34,16 +35,24 @@ class _PlaylistItemState extends State<PlaylistItem> {
                         height: 40,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(widget.playlist.image, fit: BoxFit.cover),
+                          child: Image.asset(widget.playlist.image,
+                              fit: BoxFit.cover),
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      Text(widget.playlist.name, style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600, fontSize: 20))
+                      Text(widget.playlist.name,
+                          style: TextStyle(
+                              color: colorTheme.onPrimary,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20))
                     ],
                   )
                 : Text(
                     widget.playlist.name,
-                    style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600, fontSize: 20),
+                    style: TextStyle(
+                        color: colorTheme.onPrimary,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20),
                   ),
           ),
           SizedBox(height: 15.0),
@@ -78,7 +87,9 @@ class _PlaylistItemState extends State<PlaylistItem> {
                           child: Text(
                             item.name,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600),
+                            style: TextStyle(
+                                color: colorTheme.onPrimary,
+                                fontWeight: FontWeight.w600),
                           ),
                         ),
                       ),
@@ -90,9 +101,18 @@ class _PlaylistItemState extends State<PlaylistItem> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(item.name, overflow: TextOverflow.ellipsis, style: TextStyle(color: colorTheme.onPrimary, fontWeight: FontWeight.w600)),
+                              Text(item.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color: colorTheme.onPrimary,
+                                      fontWeight: FontWeight.w600)),
                               SizedBox(height: 5.0),
-                              Text(item.artist, overflow: TextOverflow.ellipsis, style: TextStyle(color: colorTheme.onPrimary.withOpacity(0.5), fontSize: 12)),
+                              Text(item.artist,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      color:
+                                          colorTheme.onPrimary.withOpacity(0.5),
+                                      fontSize: 12)),
                             ],
                           ),
                         ),

@@ -4,9 +4,9 @@ class Song {
   final String album;
   final String albumCover;
   Song({
-    this.name,
-    this.artist,
-    this.album,
-    this.albumCover,
+    required this.name,
+    required this.artist,
+    this.album = "",
+    required this.albumCover,
   });
 }

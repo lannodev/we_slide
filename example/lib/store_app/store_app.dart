@@ -5,7 +5,7 @@ import 'home.dart';
 import 'bottom_bar.dart';
 
 class StoreApp extends StatefulWidget {
-  StoreApp({Key key}) : super(key: key);
+  StoreApp({Key? key}) : super(key: key);
 
   @override
   _StoreAppState createState() => _StoreAppState();

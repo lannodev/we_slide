@@ -21,7 +21,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  we_slide: ^1.0.3
+  we_slide: ^2.0.0
 ```
 
 ## Basic Example

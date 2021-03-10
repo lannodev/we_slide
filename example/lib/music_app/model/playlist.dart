@@ -8,9 +8,9 @@ class Playlist {
   final List<Song> musicList;
 
   Playlist({
-    this.name,
-    this.image,
-    this.type,
-    this.musicList,
+    required this.name,
+    required this.image,
+    required this.type,
+    required this.musicList,
   });
 }

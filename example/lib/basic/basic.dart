@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:we_slide/we_slide.dart';
 
 class Basic extends StatefulWidget {
-  Basic({Key key}) : super(key: key);
+  Basic({Key? key}) : super(key: key);
 
   @override
   _BasicState createState() => _BasicState();

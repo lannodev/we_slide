@@ -6,7 +6,7 @@ import 'player.dart';
 import 'home.dart';
 
 class MusicApp extends StatefulWidget {
-  MusicApp({Key key}) : super(key: key);
+  MusicApp({Key? key}) : super(key: key);
 
   @override
   _MusicAppState createState() => _MusicAppState();

@@ -5,8 +5,8 @@ import 'custom_card.dart';
 class Home extends StatelessWidget {
   final Function onTap;
   const Home({
-    Key key,
-    this.onTap,
+    Key? key,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,8 @@ class Home extends StatelessWidget {
                 ),
                 Text(
                   "Hi Mary 👋",
-                  style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w900, color: Colors.white),
+                  style: Theme.of(context).textTheme.headline4?.copyWith(
+                      fontWeight: FontWeight.w900, color: Colors.white),
                 ),
                 SizedBox(height: 20.0),
                 Expanded(

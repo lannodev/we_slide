@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Player extends StatefulWidget {
   final Function onTap;
 
-  Player({this.onTap});
+  Player({required this.onTap});
 
   @override
   _PlayerState createState() => _PlayerState();
@@ -27,7 +27,10 @@ class _PlayerState extends State<Player> {
               height: MediaQuery.of(context).size.height,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF0B1220).withOpacity(0.0), Color(0xFF0B1220).withOpacity(0.9)],
+                  colors: [
+                    Color(0xFF0B1220).withOpacity(0.0),
+                    Color(0xFF0B1220).withOpacity(0.9)
+                  ],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   stops: [0.0, 1.0],
@@ -43,14 +46,16 @@ class _PlayerState extends State<Player> {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
-                            SizedBox(height: MediaQuery.of(context).padding.top),
+                            SizedBox(
+                                height: MediaQuery.of(context).padding.top),
                             // Header
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
                               child: Row(
                                 children: <Widget>[
                                   IconButton(
-                                    onPressed: widget.onTap,
+                                    onPressed: () => widget.onTap(),
                                     iconSize: 32,
                                     icon: Icon(
                                       Icons.arrow_drop_down,
@@ -63,7 +68,8 @@ class _PlayerState extends State<Player> {
                                         Text(
                                           "PLAYING NOW",
                                           overflow: TextOverflow.ellipsis,
-                                          style: textTheme.bodyText1.apply(color: Colors.white),
+                                          style: textTheme.bodyText1!
+                                              .apply(color: Colors.white),
                                         ),
                                       ],
                                     ),
@@ -82,23 +88,26 @@ class _PlayerState extends State<Player> {
                               child: Container(
                                 height: cardSize,
                                 width: cardSize,
-                                child: Image.asset("assets/thumb/XVztg3oXmX4.jpg"),
+                                child:
+                                    Image.asset("assets/thumb/XVztg3oXmX4.jpg"),
                               ),
                             ),
                             // Music info
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 24.0),
                               child: Row(
                                 children: <Widget>[
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
                                           "Wurkit (Original Mix)",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: textTheme.headline5.apply(
+                                          style: textTheme.headline5!.apply(
                                             color: Colors.white,
                                           ),
                                         ),
@@ -107,7 +116,9 @@ class _PlayerState extends State<Player> {
                                           "Kyle Watson",
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
-                                          style: textTheme.headline6.apply(color: Colors.white.withOpacity(0.5)),
+                                          style: textTheme.headline6!.apply(
+                                              color: Colors.white
+                                                  .withOpacity(0.5)),
                                         ),
                                       ],
                                     ),
@@ -127,7 +138,8 @@ class _PlayerState extends State<Player> {
                         SliderTheme(
                           data: SliderThemeData(
                             trackHeight: 3,
-                            thumbShape: RoundSliderThumbShape(enabledThumbRadius: 6),
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 6),
                           ),
                           child: Slider(
                             inactiveColor: Colors.white.withOpacity(0.1),
@@ -146,11 +158,13 @@ class _PlayerState extends State<Player> {
                             children: <Widget>[
                               Text(
                                 "00:35",
-                                style: textTheme.bodyText2.apply(color: Colors.white.withOpacity(0.7)),
+                                style: textTheme.bodyText2!.apply(
+                                    color: Colors.white.withOpacity(0.7)),
                               ),
                               Text(
                                 "-02:05",
-                                style: textTheme.bodyText2.apply(color: Colors.white.withOpacity(0.7)),
+                                style: textTheme.bodyText2!.apply(
+                                    color: Colors.white.withOpacity(0.7)),
                               )
                             ],
                           ),
@@ -172,7 +186,8 @@ class _PlayerState extends State<Player> {
                               IconButton(
                                 iconSize: 32,
                                 onPressed: () {},
-                                icon: Icon(Icons.skip_previous, color: Colors.white),
+                                icon: Icon(Icons.skip_previous,
+                                    color: Colors.white),
                               ),
                               MaterialButton(
                                 onPressed: () {},
@@ -186,7 +201,8 @@ class _PlayerState extends State<Player> {
                               IconButton(
                                 iconSize: 32,
                                 onPressed: () {},
-                                icon: Icon(Icons.skip_next, color: Colors.white),
+                                icon:
+                                    Icon(Icons.skip_next, color: Colors.white),
                               ),
                               IconButton(
                                 highlightColor: Colors.transparent,
@@ -194,7 +210,8 @@ class _PlayerState extends State<Player> {
                                 onPressed: () {},
                                 icon: Icon(
                                   Icons.shuffle,
-                                  color: Colors.white.withOpacity(0.4), //Theme.of(context).accentColor.withOpacity(0.4),
+                                  color: Colors.white.withOpacity(
+                                      0.4), //Theme.of(context).accentColor.withOpacity(0.4),
                                 ),
                               ),
                             ],

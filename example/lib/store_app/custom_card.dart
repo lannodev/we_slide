@@ -5,10 +5,10 @@ class CustomCard extends StatelessWidget {
   final String title;
   final Function ontap;
   const CustomCard({
-    Key key,
-    this.image,
-    this.title,
-    this.ontap,
+    Key? key,
+    required this.image,
+    required this.title,
+    required this.ontap,
   }) : super(key: key);
 
   @override
@@ -33,7 +33,7 @@ class CustomCard extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: ontap,
+            onTap: () => ontap(),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -46,7 +46,10 @@ class CustomCard extends StatelessWidget {
                     title,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.headline6.copyWith(fontSize: 15, color: colorTheme.onPrimary),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline6!
+                        .copyWith(fontSize: 15, color: colorTheme.onPrimary),
                   )
                 ],
               ),

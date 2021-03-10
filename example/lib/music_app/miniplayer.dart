@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MiniPlayer extends StatefulWidget {
-  MiniPlayer({Key key, this.onTap}) : super(key: key);
+  MiniPlayer({Key? key, required this.onTap}) : super(key: key);
   final Function onTap;
   @override
   _MiniPlayerState createState() => _MiniPlayerState();
@@ -21,7 +21,7 @@ class _MiniPlayerState extends State<MiniPlayer> {
             Row(
               children: [
                 GestureDetector(
-                  onTap: widget.onTap,
+                  onTap: () => widget.onTap(),
                   // onTap: () {
                   //   Navigator.push(
                   //     context,
@@ -31,7 +31,8 @@ class _MiniPlayerState extends State<MiniPlayer> {
                   child: Container(
                     width: 70,
                     height: 70,
-                    child: Image.asset("assets/thumb/XVztg3oXmX4.jpg", fit: BoxFit.cover),
+                    child: Image.asset("assets/thumb/XVztg3oXmX4.jpg",
+                        fit: BoxFit.cover),
                   ),
                 ),
                 SizedBox(width: 20),
@@ -40,9 +41,17 @@ class _MiniPlayerState extends State<MiniPlayer> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Wurkit (Original Mix)', style: TextStyle(color: colorTheme.onPrimary), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      Text('Wurkit (Original Mix)',
+                          style: TextStyle(color: colorTheme.onPrimary),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis),
                       SizedBox(width: 8, height: 8),
-                      Text('Kyle Watson', style: TextStyle(color: colorTheme.onPrimary.withOpacity(0.5), fontSize: 12), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      Text('Kyle Watson',
+                          style: TextStyle(
+                              color: colorTheme.onPrimary.withOpacity(0.5),
+                              fontSize: 12),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis),
                     ],
                   ),
                 ),
@@ -51,7 +60,8 @@ class _MiniPlayerState extends State<MiniPlayer> {
                 SizedBox(width: 20),
                 GestureDetector(
                   onTap: () {},
-                  child: Icon(Icons.play_arrow, color: colorTheme.onPrimary, size: 30),
+                  child: Icon(Icons.play_arrow,
+                      color: colorTheme.onPrimary, size: 30),
                 ),
                 SizedBox(width: 20),
               ],

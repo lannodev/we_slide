@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Details extends StatefulWidget {
   final Function onTap;
 
-  const Details({Key key, this.onTap}) : super(key: key);
+  const Details({Key? key, required this.onTap}) : super(key: key);
   @override
   _DetailsState createState() => _DetailsState();
 }
@@ -24,7 +24,7 @@ class _DetailsState extends State<Details> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               IconButton(
-                onPressed: widget.onTap,
+                onPressed: () => widget.onTap(),
                 icon: Icon(
                   Icons.arrow_downward,
                   color: _colorTheme.onSurface,

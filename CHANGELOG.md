@@ -1,3 +1,7 @@
+## [2.0.0] - [Mar 10, 2021]
+### Features
+- support null safety 🎉
+
 ## [1.0.3] - [Aug 27, 2020]
 ### Features
 - Added new properties `blur`,`blurSigma`,`blurColor` and `overlay`
