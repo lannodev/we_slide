@@ -274,13 +274,24 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
 
   /// Gesture Vertical Update [GestureDetector]
   void _handleVerticalUpdate(DragUpdateDetails updateDetails) {
-    var fractionDragged = updateDetails.primaryDelta! / widget.panelMaxSize;
+    var delta = updateDetails.primaryDelta!;
+    var fractionDragged = delta / widget.panelMaxSize;
     _ac.value -= 1.5 * fractionDragged;
   }
 
   /// Gesture Vertical End [GestureDetector]
   void _handleVerticalEnd(DragEndDetails endDetails) {
-    if (_ac.value >= 0.5) {
+    var velocity = endDetails.primaryVelocity!;
+
+    if (velocity > 0.0) {
+      _ac.reverse().then((x) {
+        _effectiveController.value = false;
+      });
+    } else if (velocity < 0.0) {
+      _ac.forward().then((x) {
+        _effectiveController.value = true;
+      });
+    } else if (_ac.value >= 0.5 && endDetails.primaryVelocity == 0.0) {
       _ac.forward().then((x) {
         _effectiveController.value = true;
       });
