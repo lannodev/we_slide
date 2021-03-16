@@ -1,6 +1,8 @@
-## [2.0.0] - [Mar 10, 2021]
+## [2.0.1] - [Mar 15, 2021]
 ### Features
-- support null safety 🎉
+- Web support for examples
+### Fixes 
+- Addressed issue #3: Fixed issue when use `GestureDetector` to slide UP or DOWN over 'Panel'
 
 ## [1.0.3] - [Aug 27, 2020]
 ### Features
