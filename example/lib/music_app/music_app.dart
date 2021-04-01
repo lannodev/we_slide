@@ -25,24 +25,16 @@ class _MusicAppState extends State<MusicApp> {
         panelMinSize: _panelMinSize,
         panelMaxSize: _panelMaxSize,
         overlayOpacity: 0.9,
-        //blur: true,
-        //blurSigma: 0.9,
-        parallax: true,
+        overlay: true,
         body: Home(),
         panelHeader: MiniPlayer(onTap: _controller.show),
         panel: Player(onTap: _controller.hide),
         footer: BottomBar(),
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          title: Text("Title"),
+        ),
       ),
-
-      // body: Home(),
-      // bottomNavigationBar: Column(
-      //   mainAxisSize: MainAxisSize.min,
-      //   children: [
-      //     MiniPlayer(),
-      //     Divider(color: colorTheme.background, height: 1),
-      //     BottomBar(),
-      //   ],
-      // ),
     );
   }
 }

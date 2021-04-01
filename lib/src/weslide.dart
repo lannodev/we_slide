@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -10,6 +9,10 @@ class WeSlide extends StatefulWidget {
   /// This is the widget that will be below as a footer,
   /// this can be used as a [BottomNavigationBar]
   final Widget? footer;
+
+  /// This is the widget that will be on top as a AppBar,
+  /// this can be used as a [AppBar]
+  final Widget? appBar;
 
   /// This is the widget that will be hided with [Panel].
   /// You can fit any widget. This parameter is required
@@ -71,10 +74,13 @@ class WeSlide extends StatefulWidget {
   /// By default is 0.1
   final double parallaxOffset;
 
-  /// Set this value to create an hide animation with footer
-  /// Is recommended to set [footer] height value.
+  /// This is the value that set the footer height.
   /// by default is 60.0
-  final double footerOffset;
+  final double footerHeight;
+
+  /// This is the value that set the appbar height.
+  /// by default is 80.0
+  final double appBarHeight;
 
   /// This is the value that defines opacity
   /// overlay effect bethen body and panel.
@@ -100,9 +106,9 @@ class WeSlide extends StatefulWidget {
   /// By default is Colors.black
   final Color blurColor;
 
-  /// This is the value that defines background color panel.
-  /// By default is Colors.black
-  final Color panelBackground;
+  /// This is the value that defines background color.
+  /// By default is Colors.black end should be the same as [body]
+  final Color backgroundColor;
 
   /// This is the value that defines if you want to hide the footer.
   /// By default is true
@@ -128,6 +134,10 @@ class WeSlide extends StatefulWidget {
   /// to enable Gaussian blur effect. By default is false
   final bool blur;
 
+  /// This is the value that defines if you want
+  /// to enable Gaussian blur effect. By default is false
+  final bool hideAppBar;
+
   /// This is the value that create a fade transition over panel header
   final List<TweenSequenceItem<double>> fadeSequence;
 
@@ -143,6 +153,7 @@ class WeSlide extends StatefulWidget {
   WeSlide({
     Key? key,
     this.footer,
+    this.appBar,
     required this.body,
     this.panel,
     this.panelHeader,
@@ -161,20 +172,23 @@ class WeSlide extends StatefulWidget {
     this.blurSigma = 5.0,
     this.overlayColor = Colors.black,
     this.blurColor = Colors.black,
-    this.panelBackground = Colors.black,
-    this.footerOffset = 60.0,
+    this.backgroundColor = Colors.black,
+    this.footerHeight = 60.0,
+    this.appBarHeight = 80.0,
     this.hideFooter = true,
     this.hidePanelHeader = true,
     this.parallax = false,
     this.transformScale = false,
     this.overlay = false,
     this.blur = false,
+    this.hideAppBar = true,
     List<TweenSequenceItem<double>>? fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
     this.controller,
   })  : /*assert(body != null, 'body could not be null'),*/
         assert(panelMinSize >= 0.0, 'panelMinSize cannot be negative'),
-        assert(footerOffset >= 0.0, 'footerOffset cannot be negative'),
+        assert(footerHeight >= 0.0, 'footerHeight cannot be negative'),
+        assert(appBarHeight >= 0.0, 'appBarHeight cannot be negative'),
         assert(panel != null, 'panel could not be null'),
         assert(panelMaxSize >= panelMinSize,
             'panelMaxSize cannot be less than panelMinSize'),
@@ -212,7 +226,6 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   WeSlideController get _effectiveController => widget.controller!;
 
   // Check if panel is visible
-
   bool get _ispanelVisible =>
       _ac.status == AnimationStatus.completed ||
       _ac.status == AnimationStatus.forward;
@@ -242,6 +255,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
         .animate(_ac);
     // Fade Animation sequence
     _fadeAnimation = TweenSequence(widget.fadeSequence).animate(_ac);
+
     // Super Init State
     super.initState();
   }
@@ -303,7 +317,6 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   }
 
   // Get Body Animation [Paralax]
-
   Animation<Offset> _getAnimationOffSet(
       {required double minSize, required double maxSize}) {
     final _closedPercentage =
@@ -318,151 +331,216 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
         .animate(_ac);
   }
 
+  //Get Panel size
+  double _getPanelSize() {
+    var _size = 0.0;
+    /* If footer is visible*/
+    if (!widget.hideFooter && widget.footer != null) {
+      _size += widget.footerHeight;
+    }
+    /* If appbar is visible*/
+    if (!widget.hideAppBar && widget.appBar != null) {
+      _size += widget.appBarHeight;
+    }
+
+    return _size;
+  }
+
+  /* Get panel maxsize location*/
+  double _getPanelLocation() {
+    var _location = widget.panelMaxSize;
+    if (widget.appBar != null && !widget.hideAppBar) {
+      _location += -widget.appBarHeight;
+    }
+    return _location;
+  }
+
+  /* Get Body location*/
+  double _getBodyLocation() {
+    var _location = 0.0;
+
+    /* if appbar */
+    if (widget.appBar != null) {
+      _location += widget.appBarHeight;
+    }
+
+    /* if paralax*/
+    if (widget.parallax) {
+      _location += _ac.value *
+          (widget.panelMaxSize - widget.panelMinSize) *
+          -widget.parallaxOffset;
+    }
+    return _location;
+  }
+
+  double _getBodyHeight() {
+    var _size = widget.panelMinSize;
+    /* If appbar is visible*/
+    if (widget.appBar != null) _size += widget.appBarHeight;
+
+    /* if no panelMinSize value*/
+    if (widget.panelMinSize == 0.0 && widget.footer != null) {
+      _size += widget.footerHeight;
+    }
+
+    return _size;
+  }
+
   @override
   Widget build(BuildContext context) {
     //Get MediaQuery Sizes
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
 
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: <Widget>[
-        /** Body widget **/
-        AnimatedBuilder(
-          animation: _ac,
-          builder: (context, child) {
-            return Positioned(
-              top: widget.parallax
-                  ? (_ac.value *
-                      (widget.panelMaxSize - widget.panelMinSize) *
-                      -widget.parallaxOffset)
-                  : 0.0,
-              child: Transform.scale(
-                scale: widget.transformScale ? _scaleAnimation.value : 1.0,
-                alignment: Alignment.bottomCenter,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(_bodyBorderRadius.value),
-                    topRight: Radius.circular(_bodyBorderRadius.value),
-                  ),
-                  child: child,
-                ),
-              ),
-            );
-          },
-          child: Container(
-            height: _height - max(widget.panelMinSize, widget.footerOffset),
-            width: widget.bodyWidth ?? _width,
-            child: widget.body,
-          ),
-        ),
-        /** Enable Blur Effect **/
-        if (widget.blur && !widget.overlay)
+    return Container(
+      height: _height,
+      color: widget.backgroundColor, // Same as body,
+      child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: <Widget>[
+          /** Body widget **/
           AnimatedBuilder(
             animation: _ac,
-            builder: (context, _) {
-              return BackdropFilter(
-                filter: ImageFilter.blur(
-                    sigmaX: widget.blurSigma * _ac.value,
-                    sigmaY: widget.blurSigma * _ac.value),
-                child: Container(
-                  color: widget.blurColor.withOpacity(0.1),
-                ),
-              );
-            },
-          ),
-
-        /** Enable Overlay Effect **/
-        if (!widget.blur && widget.overlay)
-          AnimatedBuilder(
-            animation: _ac,
-            builder: (context, _) {
-              return Container(
-                color: _ac.value == 0.0
-                    ? null
-                    : widget.overlayColor
-                        .withOpacity(widget.overlayOpacity * _ac.value),
-              );
-            },
-          ),
-        /* Fill with background color behind panel border radius */
-        Positioned(
-          bottom: 0.0,
-          width: widget.panelWidth ?? _width,
-          height: widget.panelMinSize,
-          child: Container(
-            color: widget.panelBackground,
-          ),
-        ),
-        /** Panel widget **/
-        AnimatedBuilder(
-          animation: _ac,
-          builder: (_, child) {
-            return SlideTransition(
-              position: _getAnimationOffSet(
-                  maxSize: widget.panelMaxSize, minSize: widget.panelMinSize),
-              child: GestureDetector(
-                onVerticalDragUpdate: _handleVerticalUpdate,
-                onVerticalDragEnd: _handleVerticalEnd,
-                child: AnimatedContainer(
-                  height: widget.panelMaxSize,
-                  width: widget.panelWidth ?? _width,
-                  duration: Duration(milliseconds: 200),
+            builder: (context, child) {
+              return Positioned(
+                top: _getBodyLocation(),
+                child: Transform.scale(
+                  scale: widget.transformScale ? _scaleAnimation.value : 1.0,
+                  alignment: Alignment.bottomCenter,
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(_panelborderRadius.value),
-                      topRight: Radius.circular(_panelborderRadius.value),
+                      topLeft: Radius.circular(_bodyBorderRadius.value),
+                      topRight: Radius.circular(_bodyBorderRadius.value),
                     ),
                     child: child,
                   ),
                 ),
-              ),
-            );
-          },
-          child: Stack(
-            children: <Widget>[
-              /** Panel widget **/
-              widget.panel!,
-              /** Panel Header widget **/
-              widget.panelHeader != null && widget.hidePanelHeader
-                  ? FadeTransition(
-                      opacity: _fadeAnimation,
-                      child: ValueListenableBuilder(
-                        valueListenable: _effectiveController,
-                        builder: (_, __, ___) {
-                          return IgnorePointer(
-                            ignoring: _effectiveController.value &&
-                                widget.hidePanelHeader,
-                            child: widget.panelHeader,
-                          );
-                        },
-                      ),
-                    )
-                  : Container(),
-              /** panelHeader widget is null ?**/
-
-              widget.panelHeader != null && !widget.hidePanelHeader
-                  ? widget.panelHeader!
-                  : Container(),
-            ],
+              );
+            },
+            child: Container(
+              height: _height - _getBodyHeight(),
+              width: widget.bodyWidth ?? _width,
+              child: widget.body,
+            ),
           ),
-        ),
-        // Footer Widget
-        widget.footer != null
-            ? AnimatedBuilder(
-                animation: _ac,
-                builder: (context, child) {
-                  return Positioned(
-                    bottom: widget.hideFooter
-                        ? _ac.value * -widget.footerOffset
-                        : 0.0,
-                    width: MediaQuery.of(context).size.width,
-                    child: widget.footer!,
-                  );
-                },
-              )
-            : Container(),
-      ],
+          /** Enable Blur Effect **/
+          if (widget.blur && !widget.overlay)
+            AnimatedBuilder(
+              animation: _ac,
+              builder: (context, _) {
+                return BackdropFilter(
+                  filter: ImageFilter.blur(
+                      sigmaX: widget.blurSigma * _ac.value,
+                      sigmaY: widget.blurSigma * _ac.value),
+                  child: Container(
+                    color: widget.blurColor.withOpacity(0.1),
+                  ),
+                );
+              },
+            ),
+          /** Enable Overlay Effect **/
+          if (!widget.blur && widget.overlay)
+            AnimatedBuilder(
+              animation: _ac,
+              builder: (context, _) {
+                return Container(
+                  color: _ac.value == 0.0
+                      ? null
+                      : widget.overlayColor
+                          .withOpacity(widget.overlayOpacity * _ac.value),
+                );
+              },
+            ),
+          /** Panel widget **/
+          AnimatedBuilder(
+            animation: _ac,
+            builder: (_, child) {
+              return SlideTransition(
+                position: _getAnimationOffSet(
+                    maxSize: _getPanelLocation(), minSize: widget.panelMinSize),
+                child: GestureDetector(
+                  onVerticalDragUpdate: _handleVerticalUpdate,
+                  onVerticalDragEnd: _handleVerticalEnd,
+                  child: AnimatedContainer(
+                    height: widget.panelMaxSize,
+                    width: widget.panelWidth ?? _width,
+                    duration: Duration(milliseconds: 200),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(_panelborderRadius.value),
+                        topRight: Radius.circular(_panelborderRadius.value),
+                      ),
+                      child: child,
+                    ),
+                  ),
+                ),
+              );
+            },
+            child: Stack(
+              children: <Widget>[
+                /** Panel widget **/
+                Container(
+                  height: _height - _getPanelSize(),
+                  child: widget.panel!,
+                ),
+                /** Panel Header widget **/
+                widget.panelHeader != null && widget.hidePanelHeader
+                    ? FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: ValueListenableBuilder(
+                          valueListenable: _effectiveController,
+                          builder: (_, __, ___) {
+                            return IgnorePointer(
+                              ignoring: _effectiveController.value &&
+                                  widget.hidePanelHeader,
+                              child: widget.panelHeader,
+                            );
+                          },
+                        ),
+                      )
+                    : SizedBox.shrink(),
+                /** panelHeader widget is null ?**/
+                widget.panelHeader != null && !widget.hidePanelHeader
+                    ? widget.panelHeader!
+                    : SizedBox.shrink(),
+              ],
+            ),
+          ),
+          // Footer Widget
+          widget.footer != null
+              ? AnimatedBuilder(
+                  animation: _ac,
+                  builder: (context, child) {
+                    return Positioned(
+                      height: widget.footerHeight,
+                      bottom: widget.hideFooter
+                          ? _ac.value * -widget.footerHeight
+                          : 0.0,
+                      width: MediaQuery.of(context).size.width,
+                      child: widget.footer!,
+                    );
+                  },
+                )
+              : SizedBox.shrink(),
+          // AppBar
+          widget.appBar != null
+              ? AnimatedBuilder(
+                  animation: _ac,
+                  builder: (context, child) {
+                    return Positioned(
+                      height: widget.appBarHeight,
+                      top: widget.hideAppBar
+                          ? _ac.value * -widget.appBarHeight
+                          : 0.0,
+                      left: 0,
+                      right: 0,
+                      child: widget.appBar!,
+                    );
+                  },
+                )
+              : SizedBox.shrink(),
+        ],
+      ),
     );
   }
 }

@@ -21,7 +21,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  we_slide: ^2.0.1
+  we_slide: ^2.1.0
 ```
 
 ## Basic Example
@@ -63,6 +63,7 @@ There are many options that you can change:
 |Properties|Type|Description|
 |---------------------------|----------|-----------------|
 |`footer`|`widget`| This is the widget that will be below as a footer, this can be used as a `BottomNavigationBar` |
+|`appbar`|`widget`| This is the widget that will be on top as a AppBar, this can be used as a `AppBar` |
 |`body`|`widget` | This is the widget that will be hided with `Panel`. You can fit any widget. This parameter is required |
 |`panel`|`widget`| This is the widget that will slide over the `Body`. You can fit any widget.|
 |`panelHeader`|`widget`| This is the header that will be over the `Panel`. You can fit any widget. |
@@ -75,14 +76,15 @@ There are many options that you can change:
 |`bodyBorderRadiusEnd`|`double`|Set this value to create a border radius over `body`. When `bodyBorderRadiusBegin` is diffrent from `bodyBorderRadiusEnd` and the `panel` is slide up, this create an animation border over `body`. By default is `0.0`|
 |`bodyWidth`|`double`|This is the value that set the `body` width. By default is `MediaQuery.of(context).size.width`|
 |`parallaxOffset`|`double`|Set this value to create a `parallax` effect when the `panel` is slide up. By default is `0.1`|
-|`footerOffset`|`double`|Set this value to create an hide animation with footer. Is recommended to set `footer` height value. By default is `60.0`|
+|`footerHeight`|`double`|This is the value that set the footer height. by default is `60.0`|
+|`appBarHeight`|`double`|This is the value that set the appbar height. by default is `80.0`|
 |`overlayOpacity`|`double`|This is the value that defines opacity overlay effect bethen `body` and `panel`.|
 |`blurSigma`|`double`|This is the value that creates an image filter that applies a Gaussian blur.|
 |`transformScaleBegin`|`double`|This is the value that defines `transform scale` begin effect. By default is `1.0`|
 |`transformScaleEnd`|`double`|This is the value that defines `transform scale` end effect. By default is `0.9`|
 |`overlayColor`|`color`|This is the value that defines overlay color effect. By default is `Colors.black`|
 |`blurColor`|`color`|This is the value that defines blur color effect. By default is `Colors.black`|
-|`panelBackground`|`color`|This is the value that defines background color `panel`. By default is `Colors.black`|
+|`backgroundColor`|`color`|This is the value that defines background color. By default is `Colors.black` end should be the same as `body`|
 |`hideFooter`|`bool`|This is the value that defines if you want to hide the `footer`. By default is `true`|
 |`hidePanelHeader`|`bool`|This is the value that defines if you want to hide the `panelHeader`. By default is `true`|
 |`parallax`|`bool`|This is the value that defines if you want to enable `paralax` effect. By default is `false`|

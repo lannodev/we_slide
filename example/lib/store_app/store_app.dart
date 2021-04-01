@@ -28,10 +28,11 @@ class _StoreAppState extends State<StoreApp> {
         transformScaleEnd: 0.85,
         panelMinSize: 0.0,
         panelMaxSize: _size.height * .90,
-        footerOffset: 60.0,
+        footerHeight: 60.0,
         body: Home(onTap: _controller.show),
         panel: Details(onTap: _controller.hide),
         footer: BottomBar(),
+        //appBar: AppBar(),
       ),
     );
   }

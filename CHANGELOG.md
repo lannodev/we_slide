@@ -1,8 +1,19 @@
-## [2.0.1] - [Mar 15, 2021]
+## [2.1.0] - [Apr 1, 2021]
+### Features
+- Addressed issue #4 Added an optional `Appbar` widget with some properties `hideAppBar`,`appBarHeight` and `backgroundColor`
+### Fixes 
+- removed the properties `panelBackground` and `footerOffset`
+- some issues with panel size and body size
+
+## [2.0.1] - [Mar 16, 2021]
 ### Features
 - Web support for examples
 ### Fixes 
 - Addressed issue #3: Fixed issue when use `GestureDetector` to slide UP or DOWN over 'Panel'
+
+## [2.0.0] - [Mar 10, 2021]
+### Features
+- support null safety 🎉
 
 ## [1.0.3] - [Aug 27, 2020]
 ### Features
