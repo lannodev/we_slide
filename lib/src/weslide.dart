@@ -138,6 +138,10 @@ class WeSlide extends StatefulWidget {
   /// to enable Gaussian blur effect. By default is false
   final bool hideAppBar;
 
+  /// The [isDismissible] parameter specifies whether the panel
+  /// will be dismissed when user taps on the screen.
+  final bool isDismissible;
+
   /// This is the value that create a fade transition over panel header
   final List<TweenSequenceItem<double>> fadeSequence;
 
@@ -182,6 +186,7 @@ class WeSlide extends StatefulWidget {
     this.overlay = false,
     this.blur = false,
     this.hideAppBar = true,
+    this.isDismissible = true,
     List<TweenSequenceItem<double>>? fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
     this.controller,
@@ -451,6 +456,21 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                 );
               },
             ),
+          /** Dismiss Panel **/
+          ValueListenableBuilder(
+            valueListenable: _effectiveController,
+            builder: (_, __, ___) {
+              if (_effectiveController.isOpened && widget.isDismissible) {
+                return GestureDetector(
+                  onTap: _effectiveController.hide,
+                  child: Container(
+                    color: Colors.transparent,
+                  ),
+                );
+              }
+              return SizedBox();
+            },
+          ),
           /** Panel widget **/
           AnimatedBuilder(
             animation: _ac,

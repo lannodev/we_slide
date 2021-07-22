@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Flutter: Attach to Device",
+            "type": "dart",
+            "request": "launch",
+            "program": "${workspaceFolder}/example/lib/main.dart"
+        },
+        {
             "name": "Flutter",
             "request": "launch",
             "type": "dart",
