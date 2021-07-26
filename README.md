@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://github.com/luciano-work/we_slide/raw/master/assets/logo.png" width="300" >
+    <img src="https://github.com/luciano-work/we_slide/raw/master/assets/logo.png" width="250">
 </p>
 
 [![pub package](https://img.shields.io/pub/v/we_slide.svg)](https://pub.dartlang.org/packages/we_slide)
@@ -101,3 +101,7 @@ There are many options that you can change:
 Please file feature requests and bugs at the [issue tracker][tracker].
 
 [tracker]: https://github.com/luciano-work/we_slide/issues
+
+## License
+
+[MIT License](./LICENSE)
