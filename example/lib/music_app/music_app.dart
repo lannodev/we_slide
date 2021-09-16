@@ -17,7 +17,7 @@ class _MusicAppState extends State<MusicApp> {
   Widget build(BuildContext context) {
     final WeSlideController _controller = WeSlideController();
     final double _panelMinSize = 127.0;
-    final double _panelMaxSize = MediaQuery.of(context).size.height - 200;
+    final double _panelMaxSize = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: WeSlide(
@@ -31,10 +31,12 @@ class _MusicAppState extends State<MusicApp> {
         panelHeader: MiniPlayer(onTap: _controller.show),
         panel: Player(onTap: _controller.hide),
         footer: BottomBar(),
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: Text("Title"),
-        ),
+        blur: true,
+        //blurSigma: 5.0,
+        // appBar: AppBar(
+        //   backgroundColor: Colors.red,
+        //   title: Text("Title"),
+        // ),
       ),
     );
   }

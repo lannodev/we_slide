@@ -429,10 +429,12 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
             ),
           ),
           /** Enable Blur Effect **/
-          if (widget.blur && !widget.overlay)
+          if (widget.blur)
             AnimatedBuilder(
               animation: _ac,
               builder: (context, _) {
+                /** Fix problem with body scroll */
+                if (_ac.value <= 0) return SizedBox.shrink();
                 return BackdropFilter(
                   filter: ImageFilter.blur(
                       sigmaX: widget.blurSigma * _ac.value,
@@ -444,7 +446,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
               },
             ),
           /** Enable Overlay Effect **/
-          if (!widget.blur && widget.overlay)
+          if (widget.overlay)
             AnimatedBuilder(
               animation: _ac,
               builder: (context, _) {

@@ -1,4 +1,8 @@
 ## [2.2.0] - [Jul 22, 2021]
+### Fixes
+- Fixed problem with blur effect, body doesn't scroll when blur is enabled. issue #9
+
+## [2.2.0] - [Jul 22, 2021]
 ### Features
 - Add support to dismiss panel when user taps on the screen. issue #8
 ## [2.1.0] - [Apr 1, 2021]
