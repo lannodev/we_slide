@@ -1,4 +1,4 @@
-## [2.2.0] - [Jul 22, 2021]
+## [2.2.1] - [sep 16, 2021]
 ### Fixes
 - Fixed problem with blur effect, body doesn't scroll when blur is enabled. issue #9
 
