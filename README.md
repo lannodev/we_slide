@@ -96,6 +96,14 @@ There are many options that you can change:
 |`controller`|`WeSlideController`|This object used to control animations, using methods like `hide` or `show` to display panel or check if is visible with variable `isOpened`|
 |`fadeSequence`|`List<TweenSequenceItem<double>>`|This is the value that create a `fade transition` over `panel header`|
 
+## Support
+
+If you want to be kind to me, then consider buying me a beer.
+
+<a href="https://www.buymeacoffee.com/lanno"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a beer&emoji=🍺&slug=lanno&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff"></a>
+
+Thankyou!
+
 ## Features and bugs
 
 Please file feature requests and bugs at the [issue tracker][tracker].
