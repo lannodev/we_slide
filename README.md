@@ -24,7 +24,8 @@ dependencies:
   we_slide: ^2.2.1
 ```
 
-## Basic Example
+## Basic Example 
+https://codepen.io/luciano-work/pen/mdBxJLw
 
 ```dart
 import 'package:we_slide/we_slide.dart';
@@ -54,6 +55,7 @@ return Scaffold(
 );
 
 ```
+
 ## Others Examples
 Change propertie home to `MusicApp()` or `StoreApp` inside main.dart to see more examples 😊
 
