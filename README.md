@@ -25,7 +25,7 @@ dependencies:
 ```
 
 ## Basic Example 
-https://codepen.io/luciano-work/pen/mdBxJLw
+https://dartpad.dev/?id=6a833cba62679260bf1a556a4fdc9043
 
 ```dart
 import 'package:we_slide/we_slide.dart';
