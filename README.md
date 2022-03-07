@@ -2,8 +2,20 @@
     <img src="https://github.com/luciano-work/we_slide/raw/master/assets/logo.png" width="250">
 </p>
 
-[![pub package](https://img.shields.io/pub/v/we_slide.svg)](https://pub.dartlang.org/packages/we_slide)
-[![GitHub Stars](https://img.shields.io/github/stars/luciano-work/we_slide?logo=github)](https://github.com/luciano-work/we_slide)
+<p align="center">
+    <a href="https://github.com/luciano-work/we_slide/stargazers">
+        <img src="https://img.shields.io/github/stars/luciano-work/we_slide?colorA=1e1e28&colorB=c9cbff&style=for-the-badge&logo=starship">
+    </a>
+    <a href="https://github.com/luciano-work/we_slide/issues">
+        <img src="https://img.shields.io/github/issues/luciano-work/we_slide?colorA=1e1e28&colorB=f7be95&style=for-the-badge">
+    </a>
+    <a href="https://github.com/luciano-work/we_slide/contributors">
+        <img src="https://img.shields.io/github/contributors/luciano-work/we_slide?colorA=1e1e28&colorB=b1e1a6&style=for-the-badge">
+    </a>
+    <a href="https://pub.dartlang.org/packages/we_slide">
+        <img src="https://img.shields.io/pub/v/we_slide?colorA=1e1e28&colorB=f5cd79&style=for-the-badge">
+    </a>
+</p>
 
 The inspiration behind the package was actually a need for a slide transition like spotify (iOS)
 Unfortunately, I couldn’t find any efficient package, so I literally banged my fist on the table, 
