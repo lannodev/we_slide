@@ -141,6 +141,10 @@ class WeSlide extends StatefulWidget {
   /// The [isDismissible] parameter specifies whether the panel
   /// will be dismissed when user taps on the screen.
   final bool isDismissible;
+  
+  /// This is the value that need up sliding panel if you want
+  /// to enable Slide up through panel. By default is true
+  final bool isUpSlide;
 
   /// This is the value that create a fade transition over panel header
   final List<TweenSequenceItem<double>> fadeSequence;
@@ -187,6 +191,7 @@ class WeSlide extends StatefulWidget {
     this.blur = false,
     this.hideAppBar = true,
     this.isDismissible = true,
+    this.isUpSlide = true,
     List<TweenSequenceItem<double>>? fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
     this.controller,
@@ -295,6 +300,9 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   void _handleVerticalUpdate(DragUpdateDetails updateDetails) {
     var delta = updateDetails.primaryDelta!;
     var fractionDragged = delta / widget.panelMaxSize;
+    if (widget.isUpSlide == false && _effectiveController.value == false) {
+      return;
+    }
     _ac.value -= 1.5 * fractionDragged;
   }
 
@@ -307,9 +315,11 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
         _effectiveController.value = false;
       });
     } else if (velocity < 0.0) {
-      _ac.forward().then((x) {
-        _effectiveController.value = true;
-      });
+      if (widget.isUpSlide) {
+        _ac.forward().then((x) {
+          _effectiveController.value = true;
+        });
+      }
     } else if (_ac.value >= 0.5 && endDetails.primaryVelocity == 0.0) {
       _ac.forward().then((x) {
         _effectiveController.value = true;
