@@ -33,7 +33,7 @@ Add this to your package's pubspec.yaml file:
 
 ```yaml
 dependencies:
-  we_slide: ^2.2.1
+  we_slide: ^2.3.0
 ```
 
 ## Basic Example 
@@ -109,6 +109,7 @@ There are many options that you can change:
 |`isDismissible`|`bool`|This parameter specifies whether the `panel`will be dismissed when user taps on the screen|
 |`controller`|`WeSlideController`|This object used to control animations, using methods like `hide` or `show` to display panel or check if is visible with variable `isOpened`|
 |`fadeSequence`|`List<TweenSequenceItem<double>>`|This is the value that create a `fade transition` over `panel header`|
+|`isUpSlide`|`bool`|This is the value that need up sliding panel if you want to enable Slide up through panel. By default is `true`|
 
 ## Support
 

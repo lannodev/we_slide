@@ -14,9 +14,11 @@ class AppTheme {
   static const _bold = FontWeight.bold;
   static const _normal = FontWeight.normal;
 
-  static ThemeData lightThemeData = themeData(lightColorScheme, _lightFocusColor);
+  static ThemeData lightThemeData =
+      themeData(lightColorScheme, _lightFocusColor);
   static ThemeData darkThemeData = themeData(darkColorScheme, _darkFocusColor);
-  static ThemeData blueDarkThemeData = themeData(blueDarkColorScheme, _darkFocusColor);
+  static ThemeData blueDarkThemeData =
+      themeData(blueDarkColorScheme, _darkFocusColor);
 
   static ThemeData themeData(ColorScheme colorScheme, Color focusColor) {
     return ThemeData(
@@ -36,7 +38,6 @@ class AppTheme {
       canvasColor: colorScheme.background,
       scaffoldBackgroundColor: colorScheme.background,
       highlightColor: Colors.transparent,
-      accentColor: colorScheme.primary,
       focusColor: focusColor,
       // snackBarTheme: SnackBarThemeData(
       //   behavior: SnackBarBehavior.floating,
@@ -52,9 +53,7 @@ class AppTheme {
   // Light Colors Scheme
   static const ColorScheme lightColorScheme = ColorScheme(
     primary: Color(0xFF57D780),
-    primaryVariant: Color(0xFF57D780),
     secondary: Color(0xFFff5678),
-    secondaryVariant: Color(0xFFff5678),
     background: Color(0xFFFAFBFB),
     surface: Colors.white,
     onBackground: Color(0xFFE5E9F1),
@@ -69,9 +68,7 @@ class AppTheme {
   // Blue dark Colors Scheme
   static const ColorScheme blueDarkColorScheme = ColorScheme(
     primary: Color(0xFF57D780),
-    primaryVariant: Color(0xFF57D780),
     secondary: Color(0xFFff5678),
-    secondaryVariant: Color(0xFFff5678),
     background: Color(0xFF0B1220),
     surface: Color(0xFF111727),
     onBackground: Color(0xFF141b2d),
@@ -86,9 +83,7 @@ class AppTheme {
   // Black Colors Scheme
   static const ColorScheme darkColorScheme = ColorScheme(
     primary: Color(0xFF57D780),
-    primaryVariant: Color(0xFF57D780),
     secondary: Color(0xFFff5678),
-    secondaryVariant: Color(0xFFff5678),
     background: Color(0xFF181818),
     surface: Color(0xFF282828),
     onBackground: Color(0xFF282828),
