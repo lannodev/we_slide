@@ -460,7 +460,7 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
         children: <Widget>[
           /** Body widget **/
           AnimatedBuilder(
-            animation: _ac,
+            animation: Listenable.merge([_ac, _acFooter]),
             builder: (context, child) {
               return Positioned(
                 top: _getBodyLocation(),
@@ -472,16 +472,16 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
                       topLeft: Radius.circular(_bodyBorderRadius.value),
                       topRight: Radius.circular(_bodyBorderRadius.value),
                     ),
-                    child: child,
+                    child: SizedBox(
+                      height: _height - _getBodyHeight() - _getFooterOffset(),
+                      width: widget.bodyWidth ?? _width,
+                      child: child,
+                    ),
                   ),
                 ),
               );
             },
-            child: SizedBox(
-              height: _height - _getBodyHeight(),
-              width: widget.bodyWidth ?? _width,
-              child: widget.body,
-            ),
+            child: widget.body,
           ),
           /** Enable Blur Effect **/
           if (widget.blur)
