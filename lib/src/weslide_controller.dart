@@ -15,4 +15,9 @@ class WeSlideController extends ValueNotifier<bool> {
 
   /// Returns if the WeSlide Panel is opened or not
   bool get isOpened => value;
+
+  /// Create a controller to be used as footer controller
+  factory WeSlideController.footer() {
+    return WeSlideController(true);
+  }
 }
