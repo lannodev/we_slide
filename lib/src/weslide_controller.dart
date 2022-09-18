@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 /// This class used to control animations, using methods like hide or show
 class WeSlideController extends ValueNotifier<bool> {
-  /// WeslideController Construction
-  WeSlideController() : super(false);
+  /// WeSlideController Construction
+  // ignore: avoid_positional_boolean_parameters
+  WeSlideController([bool initial = false]) : super(initial);
 
   /// show WeSlide Panel
   void show() => value = true;
@@ -14,4 +15,9 @@ class WeSlideController extends ValueNotifier<bool> {
 
   /// Returns if the WeSlide Panel is opened or not
   bool get isOpened => value;
+
+  /// Create a controller to be used as footer controller
+  factory WeSlideController.footer() {
+    return WeSlideController(true);
+  }
 }

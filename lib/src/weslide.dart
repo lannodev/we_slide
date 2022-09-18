@@ -141,7 +141,7 @@ class WeSlide extends StatefulWidget {
   /// The [isDismissible] parameter specifies whether the panel
   /// will be dismissed when user taps on the screen.
   final bool isDismissible;
-  
+
   /// This is the value that need up sliding panel if you want
   /// to enable Slide up through panel. By default is true
   final bool isUpSlide;
@@ -157,7 +157,10 @@ class WeSlide extends StatefulWidget {
   /// to display panel or check if is visible with variable [isOpened]
   WeSlideController? controller;
 
-  /// Weslide Contructor
+  /// This object used to control additional animation  for footer
+  WeSlideController? footerController;
+
+  /// WeSlide Constructor
   WeSlide({
     Key? key,
     this.footer,
@@ -195,6 +198,7 @@ class WeSlide extends StatefulWidget {
     List<TweenSequenceItem<double>>? fadeSequence,
     this.animateDuration = const Duration(milliseconds: 300),
     this.controller,
+    this.footerController,
   })  : /*assert(body != null, 'body could not be null'),*/
         assert(panelMinSize >= 0.0, 'panelMinSize cannot be negative'),
         assert(footerHeight >= 0.0, 'footerHeight cannot be negative'),
@@ -214,41 +218,60 @@ class WeSlide extends StatefulWidget {
       // ignore: unnecessary_this
       this.controller = WeSlideController();
     }
+    if (footerController == null) {
+      // ignore: unnecessary_this
+      this.footerController = WeSlideController.footer();
+    }
   }
 
   @override
   _WeSlideState createState() => _WeSlideState();
 }
 
-class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
+class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
   // Main Animation Controller
   late AnimationController _ac;
+
   // Panel Border Radius Effect[Tween]
-  late Animation<double> _panelborderRadius;
+  late Animation<double> _panelBorderRadius;
   // Body Border Radius Effect [Tween]
   late Animation<double> _bodyBorderRadius;
   // Scale Animation Effect [Tween]
   late Animation<double> _scaleAnimation;
   // PanelHeader animation Effect [Tween]
   late Animation<double> _fadeAnimation;
+  // Footer Animation Controller
+  late AnimationController _acFooter;
 
   // Get current controller
   WeSlideController get _effectiveController => widget.controller!;
+  WeSlideController get _effectiveFooterController => widget.footerController!;
 
   // Check if panel is visible
-  bool get _ispanelVisible =>
+  bool get _isPanelVisible =>
       _ac.status == AnimationStatus.completed ||
       _ac.status == AnimationStatus.forward;
+  bool get _isFooterVisible =>
+      _acFooter.status == AnimationStatus.completed ||
+      _acFooter.status == AnimationStatus.forward;
 
   @override
   void initState() {
     // Subscribe to animated when value change
     _effectiveController.addListener(_animatedPanel);
+    _effectiveFooterController.addListener(_animatedFooter);
     // Animation controller;
-    _ac = AnimationController(vsync: this, duration: widget.animateDuration);
+    _ac = AnimationController(
+        vsync: this,
+        duration: widget.animateDuration,
+        value: _effectiveController.isOpened ? 1 : 0);
+    _acFooter = AnimationController(
+        vsync: this,
+        duration: widget.animateDuration,
+        value: _effectiveFooterController.isOpened ? 1 : 0); // show by default
     // panel Border radius animation
 
-    _panelborderRadius = Tween<double>(
+    _panelBorderRadius = Tween<double>(
             begin: widget.panelBorderRadiusBegin,
             end: widget.panelBorderRadiusEnd)
         .animate(_ac);
@@ -280,8 +303,15 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
 
   /// Animate the panel [ValueNotifier]
   void _animatedPanel() {
-    if (_effectiveController.value != _ispanelVisible) {
-      _ac.fling(velocity: _ispanelVisible ? -2.0 : 2.0);
+    if (_effectiveController.value != _isPanelVisible) {
+      _ac.fling(velocity: _isPanelVisible ? -2.0 : 2.0);
+    }
+  }
+
+  /// Animate the footer [ValueNotifier]
+  void _animatedFooter() {
+    if (_effectiveFooterController.value != _isFooterVisible) {
+      _acFooter.fling(velocity: _isFooterVisible ? -2.0 : 2.0);
     }
   }
 
@@ -290,6 +320,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
   void dispose() {
     ///Animation Controller
     _ac.dispose();
+    _acFooter.dispose();
 
     /// ValueNotifier
     _effectiveController.dispose();
@@ -370,6 +401,20 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
     return _location;
   }
 
+  double _getFooterOffset() {
+    final offset = widget.hideFooter
+        ? (_ac.value * -widget.footerHeight +
+            (1 - _acFooter.value) * -widget.footerHeight)
+        : .0;
+    if (offset < -widget.footerHeight) {
+      return -widget.footerHeight;
+    } else if (offset > widget.footerHeight) {
+      return widget.footerHeight;
+    } else {
+      return offset;
+    }
+  }
+
   /* Get Body location*/
   double _getBodyLocation() {
     var _location = 0.0;
@@ -415,7 +460,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
         children: <Widget>[
           /** Body widget **/
           AnimatedBuilder(
-            animation: _ac,
+            animation: Listenable.merge([_ac, _acFooter]),
             builder: (context, child) {
               return Positioned(
                 top: _getBodyLocation(),
@@ -427,16 +472,16 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                       topLeft: Radius.circular(_bodyBorderRadius.value),
                       topRight: Radius.circular(_bodyBorderRadius.value),
                     ),
-                    child: child,
+                    child: SizedBox(
+                      height: _height - _getBodyHeight() - _getFooterOffset(),
+                      width: widget.bodyWidth ?? _width,
+                      child: child,
+                    ),
                   ),
                 ),
               );
             },
-            child: Container(
-              height: _height - _getBodyHeight(),
-              width: widget.bodyWidth ?? _width,
-              child: widget.body,
-            ),
+            child: widget.body,
           ),
           /** Enable Blur Effect **/
           if (widget.blur)
@@ -444,7 +489,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
               animation: _ac,
               builder: (context, _) {
                 /** Fix problem with body scroll */
-                if (_ac.value <= 0) return SizedBox.shrink();
+                if (_ac.value <= 0) return const SizedBox.shrink();
                 return BackdropFilter(
                   filter: ImageFilter.blur(
                       sigmaX: widget.blurSigma * _ac.value,
@@ -480,27 +525,28 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                   ),
                 );
               }
-              return SizedBox();
+              return const SizedBox();
             },
           ),
           /** Panel widget **/
           AnimatedBuilder(
-            animation: _ac,
+            animation: Listenable.merge([_ac, _acFooter]),
             builder: (_, child) {
               return SlideTransition(
                 position: _getAnimationOffSet(
-                    maxSize: _getPanelLocation(), minSize: widget.panelMinSize),
+                    maxSize: _getPanelLocation(),
+                    minSize: widget.panelMinSize + _getFooterOffset()),
                 child: GestureDetector(
                   onVerticalDragUpdate: _handleVerticalUpdate,
                   onVerticalDragEnd: _handleVerticalEnd,
                   child: AnimatedContainer(
                     height: widget.panelMaxSize,
                     width: widget.panelWidth ?? _width,
-                    duration: Duration(milliseconds: 200),
+                    duration: const Duration(milliseconds: 200),
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(_panelborderRadius.value),
-                        topRight: Radius.circular(_panelborderRadius.value),
+                        topLeft: Radius.circular(_panelBorderRadius.value),
+                        topRight: Radius.circular(_panelBorderRadius.value),
                       ),
                       child: child,
                     ),
@@ -511,7 +557,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
             child: Stack(
               children: <Widget>[
                 /** Panel widget **/
-                Container(
+                SizedBox(
                   height: _height - _getPanelSize(),
                   child: widget.panel!,
                 ),
@@ -530,30 +576,28 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                           },
                         ),
                       )
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
                 /** panelHeader widget is null ?**/
                 widget.panelHeader != null && !widget.hidePanelHeader
                     ? widget.panelHeader!
-                    : SizedBox.shrink(),
+                    : const SizedBox.shrink(),
               ],
             ),
           ),
           // Footer Widget
           widget.footer != null
               ? AnimatedBuilder(
-                  animation: _ac,
+                  animation: Listenable.merge([_ac, _acFooter]),
                   builder: (context, child) {
                     return Positioned(
                       height: widget.footerHeight,
-                      bottom: widget.hideFooter
-                          ? _ac.value * -widget.footerHeight
-                          : 0.0,
+                      bottom: _getFooterOffset(),
                       width: MediaQuery.of(context).size.width,
                       child: widget.footer!,
                     );
                   },
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
           // AppBar
           widget.appBar != null
               ? AnimatedBuilder(
@@ -570,7 +614,7 @@ class _WeSlideState extends State<WeSlide> with SingleTickerProviderStateMixin {
                     );
                   },
                 )
-              : SizedBox.shrink(),
+              : const SizedBox.shrink(),
         ],
       ),
     );
