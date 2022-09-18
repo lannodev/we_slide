@@ -220,7 +220,7 @@ class WeSlide extends StatefulWidget {
     }
     if (footerController == null) {
       // ignore: unnecessary_this
-      this.footerController = WeSlideController.footer();
+      this.footerController = WeSlideController(initial: true);
     }
   }
 

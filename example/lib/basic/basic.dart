@@ -15,6 +15,7 @@ class _BasicState extends State<Basic> {
     final double _panelMinSize = 130.0;
     final double _panelMaxSize = MediaQuery.of(context).size.height;
     final _controller = WeSlideController();
+    final _footerController = WeSlideController(initial: true);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -36,9 +37,22 @@ class _BasicState extends State<Basic> {
           leading: BackButton(),
           backgroundColor: Colors.black,
         ),
+        // body: Container(
+        //   color: Colors.tealAccent,
+        //   child: Center(child: Text("This is the body 💪")),
+        // ),
         body: Container(
           color: Colors.tealAccent,
-          child: Center(child: Text("This is the body 💪")),
+          child: TextButton(
+            child: Text("Toggle footer"),
+            onPressed: () {
+              if (_footerController.value) {
+                _footerController.hide();
+              } else {
+                _footerController.show();
+              }
+            },
+          ),
         ),
         panel: Container(
           color: _colorScheme.primary,
