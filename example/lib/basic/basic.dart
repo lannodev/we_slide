@@ -22,7 +22,7 @@ class _BasicState extends State<Basic> {
       body: WeSlide(
         parallax: true,
         hideAppBar: true,
-        hideFooter: false,
+        hideFooter: true,
         panelMinSize: _panelMinSize,
         panelMaxSize: _panelMaxSize,
         backgroundColor: Colors.tealAccent,

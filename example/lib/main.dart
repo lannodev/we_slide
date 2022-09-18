@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-//import 'basic/basic.dart';
+import 'basic/basic.dart';
 //import 'store_app/store_app.dart';
-import 'music_app/music_app.dart';
+//import 'music_app/music_app.dart';
 import 'theme.dart';
 
 void main() {
@@ -19,9 +19,9 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkThemeData,
       title: 'WeSlide Demo',
       debugShowCheckedModeBanner: false,
-      home: MusicApp(),
+      // home: MusicApp(),
       //home: StoreApp(),
-      //home: Basic(),
+      home: Basic(),
     );
   }
 }
