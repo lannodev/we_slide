@@ -32,19 +32,19 @@ class _BasicState extends State<Basic> {
         appBarHeight: 80.0,
         footerHeight: 60.0,
         controller: _controller,
+        footerController: _footerController,
         appBar: AppBar(
           title: Text("We Slide"),
           leading: BackButton(),
           backgroundColor: Colors.black,
         ),
-        // body: Container(
-        //   color: Colors.tealAccent,
-        //   child: Center(child: Text("This is the body 💪")),
-        // ),
         body: Container(
           color: Colors.tealAccent,
           child: TextButton(
-            child: Text("Toggle footer"),
+            child: Text(
+              "This is the body 💪",
+              style: TextStyle(color: Colors.green),
+            ),
             onPressed: () {
               if (_footerController.value) {
                 _footerController.hide();
