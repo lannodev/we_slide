@@ -1,6 +1,6 @@
 name: we_slide
 description: A Flutter package which implements a backdrop displaying contextual and actionable content. =]
-version: 2.3.0
+version: 2.4.0
 homepage: https://github.com/luciano-work/we_slide
 
 environment:
