@@ -1,3 +1,8 @@
+## [2.4.0] - [sep 18, 2022]
+
+### Features
+
+- add footerController to hide footer manually when panel is not open #20
 ## [2.3.0] - [apr 18, 2022]
 
 ### Features
