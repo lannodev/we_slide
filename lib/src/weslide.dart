@@ -118,6 +118,10 @@ class WeSlide extends StatefulWidget {
   /// By default is true
   final bool hidePanelHeader;
 
+  final bool openOnPanelHeaderTaped;
+
+  final Function()? onSwipeDownWhileClosed;
+
   /// This is the value that defines if you want to enable paralax effect.
   /// By default is false
   final bool parallax;
@@ -188,6 +192,8 @@ class WeSlide extends StatefulWidget {
     this.appBarHeight = 80.0,
     this.hideFooter = true,
     this.hidePanelHeader = true,
+    this.openOnPanelHeaderTaped = false,
+    this.onSwipeDownWhileClosed,
     this.parallax = false,
     this.transformScale = false,
     this.overlay = false,
@@ -199,13 +205,14 @@ class WeSlide extends StatefulWidget {
     this.animateDuration = const Duration(milliseconds: 300),
     this.controller,
     this.footerController,
+
   })  : /*assert(body != null, 'body could not be null'),*/
         assert(panelMinSize >= 0.0, 'panelMinSize cannot be negative'),
         assert(footerHeight >= 0.0, 'footerHeight cannot be negative'),
         assert(appBarHeight >= 0.0, 'appBarHeight cannot be negative'),
         assert(panel != null, 'panel could not be null'),
         assert(panelMaxSize >= panelMinSize,
-            'panelMaxSize cannot be less than panelMinSize'),
+        'panelMaxSize cannot be less than panelMinSize'),
         fadeSequence = fadeSequence ??
             [
               TweenSequenceItem<double>(
@@ -250,10 +257,10 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
   // Check if panel is visible
   bool get _isPanelVisible =>
       _ac.status == AnimationStatus.completed ||
-      _ac.status == AnimationStatus.forward;
+          _ac.status == AnimationStatus.forward;
   bool get _isFooterVisible =>
       _acFooter.status == AnimationStatus.completed ||
-      _acFooter.status == AnimationStatus.forward;
+          _acFooter.status == AnimationStatus.forward;
 
   @override
   void initState() {
@@ -272,19 +279,19 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
     // panel Border radius animation
 
     _panelBorderRadius = Tween<double>(
-            begin: widget.panelBorderRadiusBegin,
-            end: widget.panelBorderRadiusEnd)
+        begin: widget.panelBorderRadiusBegin,
+        end: widget.panelBorderRadiusEnd)
         .animate(_ac);
     // body border radius animation
 
     _bodyBorderRadius = Tween<double>(
-            begin: widget.bodyBorderRadiusBegin,
-            end: widget.bodyBorderRadiusEnd)
+        begin: widget.bodyBorderRadiusBegin,
+        end: widget.bodyBorderRadiusEnd)
         .animate(_ac);
     // Transform scale animation
 
     _scaleAnimation = Tween<double>(
-            begin: widget.transformScaleBegin, end: widget.transformScaleEnd)
+        begin: widget.transformScaleBegin, end: widget.transformScaleEnd)
         .animate(_ac);
     // Fade Animation sequence
     _fadeAnimation = TweenSequence(widget.fadeSequence).animate(_ac);
@@ -334,7 +341,13 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
     if (widget.isUpSlide == false && _effectiveController.value == false) {
       return;
     }
+
     _ac.value -= 1.5 * fractionDragged;
+
+    if(updateDetails.delta.direction > 1 && !_effectiveController.isOpened ){
+      widget.onSwipeDownWhileClosed?.call();
+    }
+
   }
 
   /// Gesture Vertical End [GestureDetector]
@@ -372,8 +385,8 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
         (widget.panelMaxSize - maxSize) / widget.panelMaxSize;
 
     return Tween<Offset>(
-            begin: Offset(0.0, _closedPercentage),
-            end: Offset(0.0, _openPercentage))
+        begin: Offset(0.0, _closedPercentage),
+        end: Offset(0.0, _openPercentage))
         .animate(_ac);
   }
 
@@ -404,7 +417,7 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
   double _getFooterOffset() {
     final offset = widget.hideFooter
         ? (_ac.value * -widget.footerHeight +
-            (1 - _acFooter.value) * -widget.footerHeight)
+        (1 - _acFooter.value) * -widget.footerHeight)
         : .0;
     if (offset < -widget.footerHeight) {
       return -widget.footerHeight;
@@ -509,7 +522,7 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
                   color: _ac.value == 0.0
                       ? null
                       : widget.overlayColor
-                          .withOpacity(widget.overlayOpacity * _ac.value),
+                      .withOpacity(widget.overlayOpacity * _ac.value),
                 );
               },
             ),
@@ -539,6 +552,7 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
                 child: GestureDetector(
                   onVerticalDragUpdate: _handleVerticalUpdate,
                   onVerticalDragEnd: _handleVerticalEnd,
+                  onTap: widget.openOnPanelHeaderTaped ? () => _effectiveController.show() : (){},
                   child: AnimatedContainer(
                     height: widget.panelMaxSize,
                     width: widget.panelWidth ?? _width,
@@ -564,18 +578,18 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
                 /** Panel Header widget **/
                 widget.panelHeader != null && widget.hidePanelHeader
                     ? FadeTransition(
-                        opacity: _fadeAnimation,
-                        child: ValueListenableBuilder(
-                          valueListenable: _effectiveController,
-                          builder: (_, __, ___) {
-                            return IgnorePointer(
-                              ignoring: _effectiveController.value &&
-                                  widget.hidePanelHeader,
-                              child: widget.panelHeader,
-                            );
-                          },
-                        ),
-                      )
+                  opacity: _fadeAnimation,
+                  child: ValueListenableBuilder(
+                    valueListenable: _effectiveController,
+                    builder: (_, __, ___) {
+                      return IgnorePointer(
+                        ignoring: _effectiveController.value &&
+                            widget.hidePanelHeader,
+                        child: widget.panelHeader,
+                      );
+                    },
+                  ),
+                )
                     : const SizedBox.shrink(),
                 /** panelHeader widget is null ?**/
                 widget.panelHeader != null && !widget.hidePanelHeader
@@ -587,33 +601,33 @@ class _WeSlideState extends State<WeSlide> with TickerProviderStateMixin {
           // Footer Widget
           widget.footer != null
               ? AnimatedBuilder(
-                  animation: Listenable.merge([_ac, _acFooter]),
-                  builder: (context, child) {
-                    return Positioned(
-                      height: widget.footerHeight,
-                      bottom: _getFooterOffset(),
-                      width: MediaQuery.of(context).size.width,
-                      child: widget.footer!,
-                    );
-                  },
-                )
+            animation: Listenable.merge([_ac, _acFooter]),
+            builder: (context, child) {
+              return Positioned(
+                height: widget.footerHeight,
+                bottom: _getFooterOffset(),
+                width: MediaQuery.of(context).size.width,
+                child: widget.footer!,
+              );
+            },
+          )
               : const SizedBox.shrink(),
           // AppBar
           widget.appBar != null
               ? AnimatedBuilder(
-                  animation: _ac,
-                  builder: (context, child) {
-                    return Positioned(
-                      height: widget.appBarHeight,
-                      top: widget.hideAppBar
-                          ? _ac.value * -widget.appBarHeight
-                          : 0.0,
-                      left: 0,
-                      right: 0,
-                      child: widget.appBar!,
-                    );
-                  },
-                )
+            animation: _ac,
+            builder: (context, child) {
+              return Positioned(
+                height: widget.appBarHeight,
+                top: widget.hideAppBar
+                    ? _ac.value * -widget.appBarHeight
+                    : 0.0,
+                left: 0,
+                right: 0,
+                child: widget.appBar!,
+              );
+            },
+          )
               : const SizedBox.shrink(),
         ],
       ),
